@@ -21,12 +21,10 @@ public class PlayerWeapons : MonoBehaviour
     //Point of origin for effects/bullets in weapon objects
     public Transform[] effectOrigin = new Transform[3];
 
-    [SerializeField] private int shootingDirection = 0;
     private float rotationZ;
     private Vector2 direction;
 
     public SpriteRenderer[] playerArms = new SpriteRenderer[2];
-    public Animator weaponGroupAnimator;
 
 
     //Updates weapon hotkeys at start
@@ -36,6 +34,7 @@ public class PlayerWeapons : MonoBehaviour
         {
             ManagerUi.ManagerUiScript = GameObject.Find("UI").GetComponent<ManagerUi>();
         }
+
 
     UpdateWeaponUnlocks();    
     }
@@ -137,104 +136,86 @@ public class PlayerWeapons : MonoBehaviour
             ManagerUi.ManagerUiScript.itemHotkeyAnimator[i].SetBool("enabled", unlockedWeapon[i]);
         }
     }
+  
+    public void UpdateWeaponRotation()
+    {
+        
+        //Gets mouse position
+        Vector3 lookTarget = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+        Vector2 lookDirection = lookTarget - weapon[equipedWeapon].transform.position;
+        rotationZ = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg;
+
+        //Gets rotation based on difference
+        //Gets direction for projectiles
+        float distance = lookDirection.magnitude;
+        direction = lookDirection / distance;
+        direction.Normalize();
+
+        //rotates weapon
+        if(rotationZ > 90 || rotationZ < -90) weapon[equipedWeapon].transform.rotation = Quaternion.Euler(0, 180, -rotationZ + 180);
+        else weapon[equipedWeapon].transform.rotation = Quaternion.Euler(0, 0, rotationZ);
+
+    }
+
+    public void AttackMelee()
+    {
+        if (cooldown[equipedWeapon] == 0)
+        {
+            cooldown[equipedWeapon] = cooldownValues[equipedWeapon];
+
+            GameObject attack = Instantiate(effect[equipedWeapon], effectOrigin[equipedWeapon].transform.position, Quaternion.Euler(0, 0, rotationZ));
+            attack.transform.position = effectOrigin[equipedWeapon].position;
+
+            WeaponMelee script = attack.GetComponent<WeaponMelee>();
+            //script.DirectionSpeed(shootingDirection);
+        }
+
+    }
+    public void Attack()
+    { 
+        if (ammo[equipedWeapon] > 0 && cooldown[equipedWeapon] == 0)
+        {
+            ammo[equipedWeapon]--;
+            cooldown[equipedWeapon] = cooldownValues[equipedWeapon];
+
+            GameObject attack = Instantiate(effect[equipedWeapon], effectOrigin[equipedWeapon].transform.position, Quaternion.Euler(0,0,rotationZ));
+            attack.transform.position = effectOrigin[equipedWeapon].transform.position;
+            
+            //Configures projectile
+            attack.GetComponent<Projectile>().direction = direction;
+        }
+
+    }
 
     void Update()
     {
-        if (shootingDirection != 0) weaponGroupAnimator.SetBool("facingLeft", PlayerMovement.facingLeft);
-
         //Disables player's input completely if their control's are disabled
         if (Player.PlayerControls)
         {
             //Can't aim or attack while in cover
-            if (Player.scriptPlayer.inCover == false)
+            if (Player.scriptPlayer.inCover == false && equipedWeapon != -1)
             {
-                //Define shooting direction with arrow keys. Use two arrow keys for diagonal. When direction = 0, player is not considered shooting
-                if (Input.GetKey(KeyCode.UpArrow) && Input.GetKey(KeyCode.RightArrow)) shootingDirection = 2;
-                else if (Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.DownArrow)) shootingDirection = 4;
-                else if (Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftArrow)) shootingDirection = 6;
-                else if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.UpArrow)) shootingDirection = 8;
-                else if (Input.GetKey(KeyCode.UpArrow)) shootingDirection = 1;
-                else if (Input.GetKey(KeyCode.RightArrow)) shootingDirection = 3;
-                else if (Input.GetKey(KeyCode.DownArrow)) shootingDirection = 5;
-                else if (Input.GetKey(KeyCode.LeftArrow)) shootingDirection = 7;
-                else shootingDirection = 0;
+                /*
+                weapon[equipedWeapon].GetComponent<Animator>().SetInteger("direction", shootingDirection);
+                weapon[equipedWeapon].GetComponent<Animator>().SetBool("facingLeft", PlayerMovement.facingLeft);
+                */
 
-                //Shoot if weapon is equiped and if out of cover
-                if (equipedWeapon != -1)
+                UpdateWeaponRotation();
+
+                if (Input.GetMouseButton(0))
                 {
-                    weapon[equipedWeapon].GetComponent<Animator>().SetInteger("direction", shootingDirection);
-                    weapon[equipedWeapon].GetComponent<Animator>().SetBool("facingLeft", PlayerMovement.facingLeft);
-                    
-
-
-
-                    //Melee
-                    if (equipedWeapon == 0 && cooldown[equipedWeapon] == 0 && shootingDirection != 0)
+                    switch (equipedWeapon)
                     {
-                        cooldown[equipedWeapon] = cooldownValues[equipedWeapon];
+                        case 0:
+                            AttackMelee();
+                            break;
 
-                        GameObject createdSlash = Instantiate(effect[equipedWeapon]);
-                        createdSlash.transform.position = effectOrigin[equipedWeapon].position;
-                        WeaponMelee script = createdSlash.GetComponent<WeaponMelee>();
-                        script.DirectionSpeed(shootingDirection);
-                    }
-
-                    //Other Weapons
-                    else if (ammo[equipedWeapon] > 0 && cooldown[equipedWeapon] == 0 && shootingDirection != 0)
-                    {
-                        ammo[equipedWeapon]--;
-                        cooldown[equipedWeapon] = cooldownValues[equipedWeapon];
-
-                        GameObject attack = Instantiate(effect[equipedWeapon]);
-                        attack.transform.position = effectOrigin[equipedWeapon].transform.position;
-
-                        switch (shootingDirection)
-                        {
-                            case 1:
-                                rotationZ = 90;
-                                direction = new Vector2(0, 1);
-                                break;
-                            case 2:
-                                rotationZ = 45;
-                                direction = new Vector2(0.5f, 0.5f);
-                                break;
-                            case 3:
-                                rotationZ = 0;
-                                direction = new Vector2(1, 0);
-                                break;
-                            case 4:
-                                rotationZ = -45;
-                                direction = new Vector2(0.5f, -0.5f);
-                                break;
-                            case 5:
-                                rotationZ = -90;
-                                direction = new Vector2(0, -1);
-                                break;
-                            case 6:
-                                rotationZ = -135;
-                                direction = new Vector2(-0.5f, -0.5f);
-                                break;
-                            case 7:
-                                rotationZ = -180;
-                                direction = new Vector2(-1, 0);
-                                break;
-                            case 8:
-                                rotationZ = -225;
-                                direction = new Vector2(-0.5f, 0.5f);
-                                break;
-                        }
-
-                        attack.GetComponent<Projectile>().rotationZ = rotationZ;
-                        attack.GetComponent<Projectile>().direction = direction;
-
-                        /*
-                        GameObject createdShot = Instantiate(effect[equipedWeapon]);
-                        createdShot.transform.position = effectOrigin[equipedWeapon].position;
-                        WeaponBullet bulletScript = createdShot.GetComponent<WeaponBullet>();
-                        bulletScript.DirectionSpeed(direction);
-                        */
+                        default:
+                            Attack();
+                            break;
                     }
                 }
+                
             }
 
         }

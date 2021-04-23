@@ -12,25 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f335fb1ffd8684294ad653bf1c7564, type: 3}
   m_Name: ColorAdjustments
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   m_AdvancedMode: 0
   postExposure:
     m_OverrideState: 0
     m_Value: 2.2
   contrast:
     m_OverrideState: 0
-    m_Value: 21
+    m_Value: -28
     min: -100
     max: 100
   colorFilter:
     m_OverrideState: 0
-    m_Value: {r: 0.55630183, g: 1, b: 0.07075471, a: 1}
+    m_Value: {r: 1, g: 0.91036975, b: 0.8820755, a: 1}
     hdr: 1
     showAlpha: 0
     showEyeDropper: 1
   hueShift:
     m_OverrideState: 0
-    m_Value: 84
+    m_Value: -69
     min: -180
     max: 180
   saturation:
@@ -90,18 +90,18 @@ MonoBehaviour:
   m_AdvancedMode: 0
   mode:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 2
   gaussianStart:
     m_OverrideState: 1
     m_Value: 0
     min: 0
   gaussianEnd:
     m_OverrideState: 1
-    m_Value: 50
+    m_Value: 1000
     min: 0
   gaussianMaxRadius:
     m_OverrideState: 1
-    m_Value: 0.5
+    m_Value: 1.5
     min: 0.5
     max: 1.5
   highQualitySampling:
@@ -109,31 +109,31 @@ MonoBehaviour:
     m_Value: 0
   focusDistance:
     m_OverrideState: 1
-    m_Value: 8.31
+    m_Value: 50
     min: 0.1
   aperture:
     m_OverrideState: 1
-    m_Value: 4.7
+    m_Value: 1.8
     min: 1
     max: 32
   focalLength:
     m_OverrideState: 1
-    m_Value: 49
+    m_Value: 1
     min: 1
     max: 300
   bladeCount:
     m_OverrideState: 0
-    m_Value: 5
+    m_Value: 3
     min: 3
     max: 9
   bladeCurvature:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
     min: 0
     max: 1
   bladeRotation:
     m_OverrideState: 0
-    m_Value: 0
+    m_Value: -180
     min: -180
     max: 180
 --- !u!114 &11400000
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_AdvancedMode: 0
   threshold:
     m_OverrideState: 1
-    m_Value: 0.5
+    m_Value: 0.38
     min: 0
   intensity:
     m_OverrideState: 1
@@ -250,13 +250,13 @@ MonoBehaviour:
   m_AdvancedMode: 0
   shadows:
     m_OverrideState: 1
-    m_Value: {x: 0.9288075, y: 0.86035997, z: 1, w: -0.08016033}
+    m_Value: {x: 1, y: 0.8481325, z: 0.84972376, w: -0.08016033}
   midtones:
     m_OverrideState: 1
-    m_Value: {x: 0.9117095, y: 1, z: 0.7806377, w: 0}
+    m_Value: {x: 0.92695826, y: 1, z: 0.9659429, w: 0}
   highlights:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 0.8649044, z: 0.6374123, w: 0}
+    m_Value: {x: 1, y: 0.95852613, z: 0.49904668, w: 0}
   shadowsStart:
     m_OverrideState: 0
     m_Value: 0

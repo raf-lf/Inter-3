@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -7,8 +8,8 @@ public class Player : MonoBehaviour
     public static int hp = 10;
     public static int hpMax = 10;
 
-    public int iFrames = 60;
-    public int iFramesCount = -1;
+    public int iFrames = 1;
+    private bool inIFrames;
     public SpriteRenderer[] spriteGroup;
 
     public static int itemHeal = 3;
@@ -27,6 +28,7 @@ public class Player : MonoBehaviour
     public static PlayerActions scriptActions;
 
     public Animator shaderAnimator;
+    private bool dead;
 
 
     void Start()
@@ -40,14 +42,17 @@ public class Player : MonoBehaviour
 
     public void Damage(int hpLoss, float knockback, Transform sourcePosition)
     {
-        ChangeHp(hpLoss * -1);
-        
-        ToggleIFrames(true);
+        if (inIFrames == false)
+        {
+            ChangeHp(hpLoss * -1);
 
-        if (knockback != 0)
+            ToggleIFrames(true);
+
+            if (knockback != 0 && sourcePosition != null)
             {
                 GetComponent<PlayerMovement>().Knockback(knockback, sourcePosition);
             }
+        }
     }
 
     public void Heal(int hpGain)
@@ -66,29 +71,39 @@ public class Player : MonoBehaviour
     
     public void Death()
     {
+        dead = true;
+        CoverCollider.enabled = false;
+        DamageCollider.enabled = false;
+
+        Animator anim = GetComponent<Animator>();
+        anim.SetBool("death", true);
+        Player.scriptWeapons.SwapWeapon(PlayerWeapons.equipedWeapon);
+        PlayerControls = false;
+        shaderAnimator.SetBool("dead", true);
+        StartCoroutine(PostDeath());
+    }
+
+    IEnumerator PostDeath()
+    {
+        yield return new WaitForSeconds(4);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        hp = hpMax;
+        PlayerControls = true;
+
+
     }
 
     private void ToggleIFrames(bool toggleOn)
     {
+        inIFrames = toggleOn;
+
+        DamageCollider.enabled = !toggleOn;
+        shaderAnimator.SetBool("damaged", toggleOn);
+
         if (toggleOn)
         {
-            iFramesCount = iFrames;
-
-            DamageCollider.enabled = false;
-
-            if (inCover)
-            {
-                Cover(false);
-            }
-
-            shaderAnimator.SetBool("damaged", true);
-
-        }
-        else
-        {
-            DamageCollider.enabled = true;
-
-            shaderAnimator.SetBool("damaged", false);
+            if (inCover) Cover(false);
+            StartCoroutine(IFramesCount());
         }
 
     }
@@ -96,6 +111,9 @@ public class Player : MonoBehaviour
     public void Cover (bool covering)
     {
         inCover = covering;
+
+        CoverCollider.enabled = covering;
+        DamageCollider.enabled = !covering;
 
         if (covering) GetComponent<PlayerMovement>().HaltMovement();
 
@@ -113,20 +131,11 @@ public class Player : MonoBehaviour
 
     }
 
-    private void FixedUpdate()
+    IEnumerator IFramesCount()
     {
-        if (iFramesCount > 0)
-        {
-            iFramesCount--;
-        }
-        else if (iFramesCount == 0)
-        {
-            ToggleIFrames(false);
-            iFramesCount = -1;
-        }
-      
+        yield return new WaitForSeconds(iFrames);
+        if (dead == false) ToggleIFrames(false);
     }
-
 
 
 }
