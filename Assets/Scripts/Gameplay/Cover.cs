@@ -15,7 +15,7 @@ public class Cover : MonoBehaviour
     {
         usingCover = wentIn;
 
-        Player.scriptPlayer.Cover(wentIn);
+        GameManager.scriptPlayer.Cover(wentIn);
 
     }
 
@@ -44,7 +44,7 @@ public class Cover : MonoBehaviour
     void Update()
     {
         //Can't tale cover while crouching
-        if (interactible && Player.scriptMovement.crouching == false)
+        if (interactible && GameManager.scriptMovement.crouching == false)
         {
             if (usingCover)
             {

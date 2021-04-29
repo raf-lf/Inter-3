@@ -10,8 +10,13 @@ public class WriteText : MonoBehaviour
     public GameObject chatterBox;
     public Text chatterText;
 
+    public GameObject logBox;
+    public Text logText;
+
     public float characterInterval = 0.01f;
     private string textToWrite;
+
+    private float logEndTimer = 2;
 
     public float chatterCharacterDelay = 0.1f;
     private float chatterEndTimer = 3;
@@ -56,12 +61,13 @@ public class WriteText : MonoBehaviour
         {
             dialogueBox.GetComponent<Animator>().SetBool("active", true);
             Player.PlayerControls = false;
-            Player.scriptMovement.HaltMovement();
+            GameManager.scriptMovement.HaltMovement();
         }
 
         dialogueSkip = true;
 
-        StopAllCoroutines();
+        StopCoroutine(DialogueWrite());
+        StopCoroutine(ChatterWrite());
         StartCoroutine(DialogueWrite());
     }
     public void ChatterWrite(int lv, int d, int l)
@@ -80,11 +86,25 @@ public class WriteText : MonoBehaviour
 
         chatterEndTimer = textToWrite.Length * chatterCharacterDelay;
 
-        StopAllCoroutines();
+        StopCoroutine(DialogueWrite());
+        StopCoroutine(ChatterWrite());
         StartCoroutine(ChatterWrite());
     }
 
-    private void CharacterSFX(bool dialogue)
+    public void LogWrite(string logToWrite)
+    {
+        dialogueType = 3;
+
+        finalLine = true;
+
+        logText.text = logToWrite;
+
+        if (logBox.GetComponent<Animator>().GetBool("active") == false) logBox.GetComponent<Animator>().SetBool("active", true);
+
+        logEndTimer = logToWrite.Length * chatterCharacterDelay + Time.time;
+    }
+
+    private void CharacterSFX()
     {
         /*
         
@@ -99,13 +119,14 @@ public class WriteText : MonoBehaviour
 
     }
 
+
     IEnumerator DialogueWrite()
     {
         for (int i = 0; i <= textToWrite.Length; i++)
         {
 
             dialogueText.text = textToWrite.Substring(0, i);
-            CharacterSFX(true);
+            CharacterSFX();
 
             if (i == textToWrite.Length)
             {
@@ -123,7 +144,7 @@ public class WriteText : MonoBehaviour
           for (int i = 0; i <= textToWrite.Length; i++)
           {
               chatterText.text = textToWrite.Substring(0, i);
-              CharacterSFX(false);
+              CharacterSFX();
 
               if (i == textToWrite.Length)
               {
@@ -137,7 +158,7 @@ public class WriteText : MonoBehaviour
         yield return new WaitForSeconds(characterInterval);
     }
 
-    private void End()
+    private void LineEnd()
     {
         if (finalLine)
         {
@@ -149,6 +170,10 @@ public class WriteText : MonoBehaviour
             else if (dialogueType == 2)
             {
                 chatterBox.GetComponent<Animator>().SetBool("active", false);
+            }
+            else if (dialogueType == 3)
+            {
+                logBox.GetComponent<Animator>().SetBool("active", false);
             }
 
             dialogueType = 0;
@@ -162,7 +187,7 @@ public class WriteText : MonoBehaviour
 
     private void Update()
     {
-        if (dialogueType == 1 && Input.GetKeyDown(KeyCode.Return))
+        if (dialogueType == 1 && Input.GetMouseButtonDown(0) && GameManager.GamePaused == false)
         {
             if (dialogueSkip)
             {
@@ -175,13 +200,17 @@ public class WriteText : MonoBehaviour
             else if (dialogueNext)
             {
                 dialogueNext = false;
-                End();
+                LineEnd();
             }
         }
         else if (dialogueType == 2 && Time.time >= chatterEndTimer && chatterEnded)
         {
             chatterEnded = false;
-            End();
+            LineEnd();
+        }
+        else if (dialogueType == 3 && Time.time >= logEndTimer)
+        {
+            LineEnd();
         }
     }
 

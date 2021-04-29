@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WeaponBullet : MonoBehaviour
 {
+    /*
     public int damage;
     public float speed;
     public float autoDestroyTimer;
@@ -77,4 +78,5 @@ public class WeaponBullet : MonoBehaviour
         if (autoDestroyTimer <= 0) Blast();
         else autoDestroyTimer--;
     }
+    */
 }

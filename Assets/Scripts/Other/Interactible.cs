@@ -44,7 +44,7 @@ public class Interactible : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(PlayerActions.keyInteract) && interactible && unusable == false && Player.PlayerControls)
+        if (Input.GetKeyDown(PlayerActions.keyInteract) && interactible && unusable == false && Player.PlayerControls && GameManager.GamePaused == false)
         {
             if (oneUse)
             {

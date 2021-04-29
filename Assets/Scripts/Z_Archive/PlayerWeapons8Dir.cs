@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerWeapons8Dir : MonoBehaviour
 {
+    /*
     public static bool[] unlockedWeapon = { true, true, true};
     public static int equipedWeapon = -1;
     public static int[] ammo = { 0, 6, 50 };
@@ -175,8 +176,8 @@ public class PlayerWeapons8Dir : MonoBehaviour
 
                         GameObject createdSlash = Instantiate(effect[equipedWeapon]);
                         createdSlash.transform.position = effectOrigin[equipedWeapon].position;
-                        WeaponMelee script = createdSlash.GetComponent<WeaponMelee>();
-                        script.DirectionSpeed(shootingDirection);
+                        //WeaponMelee script = createdSlash.GetComponent<WeaponMelee>();
+                        //script.DirectionSpeed(shootingDirection);
                     }
 
                     //Other Weapons
@@ -227,12 +228,12 @@ public class PlayerWeapons8Dir : MonoBehaviour
                         attack.GetComponent<Projectile>().rotationZ = rotationZ;
                         attack.GetComponent<Projectile>().direction = direction;
 
-                        /*
-                        GameObject createdShot = Instantiate(effect[equipedWeapon]);
-                        createdShot.transform.position = effectOrigin[equipedWeapon].position;
-                        WeaponBullet bulletScript = createdShot.GetComponent<WeaponBullet>();
-                        bulletScript.DirectionSpeed(direction);
-                        */
+                        //
+                       // GameObject createdShot = Instantiate(effect[equipedWeapon]);
+                        //createdShot.transform.position = effectOrigin[equipedWeapon].position;
+                       // WeaponBullet bulletScript = createdShot.GetComponent<WeaponBullet>();
+                       // bulletScript.DirectionSpeed(direction);
+                        
                     }
                 }
             }
@@ -250,4 +251,5 @@ public class PlayerWeapons8Dir : MonoBehaviour
 
 
     }
+*/
 }

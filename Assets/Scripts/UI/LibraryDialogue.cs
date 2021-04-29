@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LibraryDialogue : MonoBehaviour
+public static class LibraryDialogue
 {
     public static string RetrieveDialogue(int level, int chatId ,int lineId)
     {
