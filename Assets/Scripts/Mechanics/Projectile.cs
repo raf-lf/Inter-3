@@ -14,12 +14,15 @@ public class Projectile : MonoBehaviour
     public float autoDestroyTimer;
     private float timer;
 
+    private Rigidbody2D rb;
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
+
         transform.rotation = Quaternion.Euler(0, 0, rotationZ);
 
-        GetComponent<Rigidbody2D>().velocity = direction * speed;
+        rb.velocity = direction * speed;
 
         timer = Time.time + autoDestroyTimer;
     }
@@ -27,7 +30,7 @@ public class Projectile : MonoBehaviour
     private void Impact()
     {
         GetComponent<Animator>().SetInteger("state", 1);
-        GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
+        rb.velocity = new Vector2(0,0);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -41,8 +44,8 @@ public class Projectile : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Enemy"))
         {
-            Creature script = collision.gameObject.GetComponent<Creature>();
-            if (script != null) script.Damage(damage, knockback, transform);
+            IDamageable enemyDamageInterface = collision.gameObject.GetComponent(typeof(IDamageable)) as IDamageable;
+            if (enemyDamageInterface != null) enemyDamageInterface.Damage(damage, knockback, transform);
 
         }
 

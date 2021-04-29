@@ -6,11 +6,10 @@ public class PlayerActions : MonoBehaviour
 {
     static public KeyCode keyJump = KeyCode.Space;
 
-    static public KeyCode keyInteract = KeyCode.E;
-
     static public KeyCode keyHeal = KeyCode.Q;
-    static public KeyCode keyGrenade = KeyCode.F;
+    static public KeyCode keyGreanade = KeyCode.F;
 
+    static public KeyCode keyExamine = KeyCode.E;
     static public KeyCode keyReload = KeyCode.R;
     static public KeyCode keyCover = KeyCode.W;
     static public KeyCode keyCrouch = KeyCode.S;
@@ -21,7 +20,7 @@ public class PlayerActions : MonoBehaviour
 
     private void ItemHealUse()
     {
-        if (Player.itemHeal > 0 && Player.hp < Player.hpMax && Player.PlayerControls)
+        if (Player.itemHeal > 0 && Player.hp < Player.hpMax)
         {
             GetComponent<Player>().Heal(5);
             Player.itemHeal -= 1;
@@ -30,7 +29,7 @@ public class PlayerActions : MonoBehaviour
 
     private void ItemGrenadelUse()
     {
-        if (Player.itemGrenade > 0 && Player.scriptPlayer.inCover == false && Player.PlayerControls)
+        if (Player.itemGrenade > 0 && Player.scriptPlayer.inCover == false)
         {
             Player.itemGrenade -= 1;
         }
@@ -43,7 +42,7 @@ public class PlayerActions : MonoBehaviour
             ItemHealUse();
         }
 
-        if (Input.GetKeyDown(keyGrenade))
+        if (Input.GetKeyDown(keyGreanade))
         {
             ItemGrenadelUse();
         }

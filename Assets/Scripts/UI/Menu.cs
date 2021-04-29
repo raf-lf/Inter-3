@@ -41,14 +41,14 @@ public class Menu : MonoBehaviour
 
     public void InventoryOpen()
     {
-       // Cursor.visible = true;
+        Cursor.visible = true;
         inventoryAnim.SetBool("active", true);
         submenuAnim.SetBool("active", true);
 
     }
     public void InventoryClose()
     {
-      //  Cursor.visible = false;
+        Cursor.visible = false;
         inventoryAnim.SetBool("active", false);
         inventoryAnim.SetInteger("position", 0);
         submenuAnim.SetBool("active", false);
