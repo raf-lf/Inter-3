@@ -4,10 +4,31 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed;
-    public float moveSpeedCurrent;
-    public float jumpForce;
+    [Header("Movement")]
+    public float moveSpeedIncrement = 1;
+    public float moveSpeedMax = 6;
+    public float crouchSpeedMax = 2;
+    public float rollSpeedBoost = 4;
 
+    private float currentTopSpeed;
+
+    [Header("Jumping")]
+    public float jumpForce; //21 if no boost, 10 if boost
+    public float jumpForceBoost; //0 if no boost, 1.75 if boost
+    public float jumpBoostWindow; //0.15
+    private float jumpBoostTimer;
+    [SerializeField]
+    private bool canJumpBoost = false;
+
+    [Header("Fall Damage")]
+    public float fallVelocityMemory;
+    public int fallDamageLow;
+    public int fallDamageHigh;
+    public float fallDamageLowVelocity;
+    public float fallDamageHighVelocity;
+
+
+    [Header("States")]
     public bool move;
     public bool jumping;
     public bool crouching;
@@ -32,7 +53,6 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         jumpableMask = LayerMask.GetMask("Default");
-        moveSpeedCurrent = moveSpeed;
     }
 
     public void ShootingFaceDirection(bool shootingOpposite)
@@ -59,18 +79,38 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jump()
     {
-        rb.velocity = new Vector2(0, jumpForce);
+        Vector2 velocityChange = new Vector2(0, jumpForce);
+        
+        rb.velocity += velocityChange;
 
         animator.SetBool("jump", true);
         jumping = true;
         jumpFallTimer = Time.time + 0.1f;
+        canJumpBoost = true;
+        jumpBoostTimer = Time.time + jumpBoostWindow;
     }
 
     public void JumpLand()
     {
+        //Debug.Log("Landing speed = " + rb.velocity.y);
+
         jumping = false;
         animator.SetBool("jump", false);
-        //rb.velocity = new Vector2(0, 0);
+
+        
+        //Fall Damage
+        
+        if (rb.velocity.y <= fallDamageHighVelocity * -1) Player.scriptPlayer.Damage(fallDamageHigh, 0, null);
+        else if (rb.velocity.y <= fallDamageLowVelocity * -1) Player.scriptPlayer.Damage(fallDamageLow, 0, null);
+        
+        
+
+    }
+
+    private void JumpBoost()
+    {
+        Vector2 velocityChange = new Vector2(0, jumpForceBoost);
+        rb.velocity += velocityChange;
     }
 
     public void Knockback(float knockback, Transform sourcePosition)
@@ -96,7 +136,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void HaltMovement()
     {
-        if (jumping) JumpLand();
         if (move) move = false;
         rb.velocity = new Vector2(0,0);
     }
@@ -107,14 +146,13 @@ public class PlayerMovement : MonoBehaviour
         {
             crouching = true;
             animator.SetBool("crouch", true);
-            //moveSpeedCurrent /= 2;
+
 
         }
         else if (HasRoomToStand())
         {
             crouching = false;
             animator.SetBool("crouch", false);
-            //moveSpeedCurrent *= 2;
         }
     }
 
@@ -124,8 +162,82 @@ public class PlayerMovement : MonoBehaviour
         else return true;
     }   
 
+    public void Roll()
+    {
+        Player.PlayerControls = false;   
+        Vector2 speedChange;
+
+        if (facingLeft) speedChange = new Vector2(rollSpeedBoost * -1, 0);
+        else speedChange = new Vector2(rollSpeedBoost, 0);
+
+        rb.velocity += speedChange;
+    }
+    public void RollEnd()
+    {
+        Player.PlayerControls = true;
+    }
+
+    void Movement (bool moving, bool moveLeft)
+    {
+        if (moving)
+        {
+            move = true;
+            facingLeft = moveLeft;
+
+            //Rotates player object
+            if (moveLeft) transform.rotation = new Quaternion(0, 180, 0, 0);
+            else transform.rotation = new Quaternion(0, 0, 0, 0);
+
+            //Sets top speed based on movement type
+            if (crouching) currentTopSpeed = crouchSpeedMax;
+            else currentTopSpeed = moveSpeedMax;
+
+            Vector2 speedChange = new Vector2(moveSpeedIncrement, 0);
+
+            if (moveLeft)
+            {
+                if (rb.velocity.x > currentTopSpeed * -1)
+                {
+                    rb.velocity -= speedChange;
+                }
+                
+                /*
+                else if (rb.velocity.x < currentTopSpeed * -1)
+                {
+                    rb.velocity += speedChange;
+                }
+                */
+                
+                
+            }
+            else
+            {
+                if (rb.velocity.x < currentTopSpeed)
+                {
+                    rb.velocity += speedChange;
+                }
+                
+                /*          
+                else if (rb.velocity.x > currentTopSpeed)
+                {
+                    rb.velocity -= speedChange;
+                }
+                */                
+            }
+        }
+
+        else
+        {
+            move = false;
+
+            if (jumping == false) rb.velocity = new Vector2(rb.velocity.x / 2, rb.velocity.y);
+        }
+
+    }
+
     void Update()
     {
+        //Detect if the player can stand for crouching purposes
         canStand = HasRoomToStand();
 
         //Detect if player is sitting on ground
@@ -143,12 +255,10 @@ public class PlayerMovement : MonoBehaviour
         if (move == true)
         {
             animator.SetBool("move", true);
-            //rb.sharedMaterial.friction = 0;
         }
         else
         {
             animator.SetBool("move", false);
-           // if (!jumping) rb.sharedMaterial.friction = 100000;
         }
 
         //Jump landing check
@@ -157,8 +267,14 @@ public class PlayerMovement : MonoBehaviour
             JumpLand();
         }
 
+        //Ends Jump Boost Window
+        if (canJumpBoost == true && Time.time >= jumpBoostTimer)
+        {
+            canJumpBoost = false;
+        }
+
         //If player is falling, set them to falling animation
-        if (rb.velocity.y < -5 && jumping == false)
+        if (rb.velocity.y < -8 && jumping == false)
         {
             animator.SetBool("jump", true);
             jumping = true;
@@ -167,41 +283,21 @@ public class PlayerMovement : MonoBehaviour
 
         if (Player.PlayerControls == true && Player.scriptPlayer.inCover == false)
         {
-            //Stop movement
-            if (Input.GetKey(KeyCode.D) == false && Input.GetKey(KeyCode.A) == false)
-            {
-                move = false;
+            //Stop movement when not trying to move
+            if (Input.GetKey(KeyCode.D) == false && Input.GetKey(KeyCode.A) == false) Movement(false, false);
 
-                if(jumping ==false) rb.velocity = new Vector2(rb.velocity.x/2, rb.velocity.y);
-            }
+            //Stop movement when pressing both move keys
+            if (Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.A)) Movement(false, false);
 
-            //Walk right
-            if (Input.GetKey(KeyCode.D) == true)
-            {
-                move = true;
+            //Move right
+            else if (Input.GetKey(KeyCode.D) == true) Movement(true, false);
 
-                transform.rotation = new Quaternion(0,0,0,0);
-                facingLeft = false;
+            //Move left
+            else if (Input.GetKey(KeyCode.A) == true) Movement(true, true);
 
-                rb.velocity = new Vector2(moveSpeedCurrent, rb.velocity.y);
-            }
+            //Jump when key pressed
+            if (Input.GetKeyDown(PlayerActions.keyJump) && onGround && jumping == false) JumpAttempt();
 
-            //Walk left
-            if (Input.GetKey(KeyCode.A) == true)
-            {
-                move = true;
-
-                transform.rotation = new Quaternion(0, 180, 0, 0);
-                facingLeft = true;
-
-                rb.velocity = new Vector2(moveSpeedCurrent * -1, rb.velocity.y);
-            }
-
-            //Jump
-            if (Input.GetKeyDown(PlayerActions.keyJump) && onGround && jumping == false)
-            {
-                JumpAttempt();
-            }
 
             //Attempts to crouch if pressing crouch key, not jumping and only if on ground
             if (Player.scriptPlayer.inCover == false)
@@ -223,5 +319,12 @@ public class PlayerMovement : MonoBehaviour
             }
 
         }
+    }
+
+    private void FixedUpdate()
+    {
+        //Boosts jump force if jump key continues being pressed
+        if (Input.GetKey(PlayerActions.keyJump) && jumping && canJumpBoost) JumpBoost();
+
     }
 }
