@@ -14,4 +14,12 @@ public class AnimatorTools : MonoBehaviour
         GetComponent<Animator>().SetBool(boolName, false);
 
     }
+
+    public void playSFX(AudioClip clip)
+    {
+        GameManager.sfxAudioSource.PlayOneShot(clip);
+
+    }
+
+
 }

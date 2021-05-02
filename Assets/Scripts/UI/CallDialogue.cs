@@ -12,16 +12,16 @@ public class CallDialogue : MonoBehaviour
 
     public void Dialogue()
     {
-        WriteText.scriptWrite.DialogueWrite(level, dialogue, line);
+        GameManager.scriptDialogue.Write(level, dialogue, line);
     }
 
-    public void Chatter()
+    public void Comment()
     {
-        WriteText.scriptWrite.ChatterWrite(level, dialogue, line);
+        GameManager.scriptComment.Write(level, dialogue, line);
     }
     public void Log()
     {
-        WriteText.scriptWrite.LogWrite(logMessage);
+        GameManager.scriptLog.Write(logMessage);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -34,7 +34,7 @@ public class CallDialogue : MonoBehaviour
                     Dialogue();
                     break;
                 case 2:
-                    Chatter();
+                    Comment();
                     break;
                 case 3:
                     Log();

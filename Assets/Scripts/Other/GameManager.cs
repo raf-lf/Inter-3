@@ -18,6 +18,7 @@ public static class GameManager
     [Header("Collectibles")]
     public static bool[] weaponUpgrades = new bool[5];
     public static bool[,] documents = new bool[4, 4];
+    public static bool[] medals = new bool[3];
 
     [Header("ScriptManagement")]
     public static GameObject PlayerCharacter;
@@ -26,6 +27,13 @@ public static class GameManager
     public static PlayerWeapons scriptWeapons;
     public static PlayerMovement scriptMovement;
     public static PlayerActions scriptActions;
+    public static PlayerAudio scriptAudio;
+    public static MenuUi scriptMenu;
+    public static TextLog scriptLog;
+    public static TextComment scriptComment;
+    public static TextDialogue scriptDialogue;
+
+    public static AudioSource sfxAudioSource;
 
 
 

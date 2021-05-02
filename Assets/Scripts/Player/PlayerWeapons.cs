@@ -199,31 +199,39 @@ public class PlayerWeapons : MonoBehaviour
 
     
     public void Attack()
-    { 
-        if (ammo[equipedWeapon] > 0 && cooldown[equipedWeapon] == 0)
+    {
+        if (cooldown[equipedWeapon] == 0)
         {
-            ammo[equipedWeapon]--;
-            cooldown[equipedWeapon] = cooldownValues[equipedWeapon];
-
-
-            GameObject projectileToSpawn = effect[equipedWeapon];
-            
-            if (equipedWeapon == 2 && GameManager.weaponUpgrades[2])
+            if (ammo[equipedWeapon] > 0)
             {
-                float roll = Random.Range(1,101);
-                if (roll <= rifleCriticalChance) projectileToSpawn = rifleCriticalEffect;
+                ammo[equipedWeapon]--;
+                cooldown[equipedWeapon] = cooldownValues[equipedWeapon];
 
+
+                GameObject projectileToSpawn = effect[equipedWeapon];
+
+                if (equipedWeapon == 2 && GameManager.weaponUpgrades[2])
+                {
+                    float roll = Random.Range(1, 101);
+                    if (roll <= rifleCriticalChance) projectileToSpawn = rifleCriticalEffect;
+
+                }
+
+                GameObject attack = Instantiate(projectileToSpawn, effectOrigin[equipedWeapon].transform.position, Quaternion.Euler(0, 0, rotationZ));
+                attack.transform.position = effectOrigin[equipedWeapon].transform.position;
+
+                //Configures projectile
+                attack.GetComponent<Projectile>().direction = direction;
             }
-
-            GameObject attack = Instantiate(projectileToSpawn, effectOrigin[equipedWeapon].transform.position, Quaternion.Euler(0, 0, rotationZ));
-            attack.transform.position = effectOrigin[equipedWeapon].transform.position;
-
-            //Configures projectile
-            attack.GetComponent<Projectile>().direction = direction;
+            else
+            {
+                GameManager.scriptAudio.playSFX(GameManager.scriptAudio.sfxNoAmmo, 1, new Vector2(.7f, 1.3f));
+                cooldown[equipedWeapon] = cooldownValues[equipedWeapon];
+            }
         }
 
     }
-
+    
 
     void Update()
     {

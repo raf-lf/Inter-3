@@ -47,7 +47,7 @@ public class Hud : MonoBehaviour
             //Ignore for weapon 0 (melee)
             if (i != 0)
             {
-                ammoText[i].text = "" + PlayerWeapons.ammo[i];
+                ammoText[i].text = "" + PlayerWeapons.ammo[i] + "/"+PlayerWeapons.magazineSize[i];
                 clipText[i].text = "" + GameManager.AmmoClips[i];
                 v1 = PlayerWeapons.ammo[i];
                 v2 = PlayerWeapons.magazineSize[i];

@@ -13,8 +13,13 @@ MonoBehaviour:
   m_Name: Desert2
   m_EditorClassIdentifier: 
   m_Angles:
-  - m_Start: -116
-    m_End: 108
+  - m_Start: -90
+    m_End: 90
+    m_Order: 0
+    m_Sprites:
+    - {fileID: 21300000, guid: b742d919bba08a94b9caa4bc774a0d14, type: 3}
+  - m_Start: 90
+    m_End: 270
     m_Order: 0
     m_Sprites:
     - {fileID: 21300000, guid: b742d919bba08a94b9caa4bc774a0d14, type: 3}
@@ -44,5 +49,5 @@ MonoBehaviour:
   - m_CornerType: 7
     m_Sprites:
     - {fileID: 0}
-  m_FillOffset: -0.094
+  m_FillOffset: -0.077
   m_UseSpriteBorders: 1

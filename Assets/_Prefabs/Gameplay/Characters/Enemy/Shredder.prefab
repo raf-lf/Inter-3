@@ -471,8 +471,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b629e4d173d473243b6821c38d4ab3e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 3
-  hpMax: 3
+  hp: 5
+  hpMax: 5
   detectionRadius: 5
   detectionTrigger: {fileID: 6039247206947558658}
   damage: 1
