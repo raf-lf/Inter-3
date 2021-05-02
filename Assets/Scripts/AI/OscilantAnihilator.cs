@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OscilantDud : Creature
+public class OscilantAnihilator : Creature
 {
     private LayerMask movementLayerMask;
 

@@ -30,22 +30,26 @@ public class Projectile : MonoBehaviour
         GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+
+        if (collision.gameObject.GetComponentInParent<Player>())
+        {
+            Impact();
+            collision.gameObject.GetComponentInParent<Player>().Damage(damage, knockback, transform);
+
+        }
+        else if (collision.gameObject.GetComponentInParent<Creature>())
+        {
+            Impact();
+            collision.gameObject.GetComponentInParent<Creature>().Damage(damage, knockback, transform);
+
+        }
+
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Impact();
-
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            collision.gameObject.GetComponent<Player>().Damage(damage, knockback, transform);
-
-        }
-        else if (collision.gameObject.CompareTag("Enemy"))
-        {
-            Creature script = collision.gameObject.GetComponent<Creature>();
-            if (script != null) script.Damage(damage, knockback, transform);
-
-        }
-
     }
 
     public void Destroy()

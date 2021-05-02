@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class AnimatorTools : MonoBehaviour
 {
-    public void SetBoolTrue(string boolName)
+    public void AnimatorBoolTrue(string boolName)
     {
         GetComponent<Animator>().SetBool(boolName, true);
 
     }
-    public void SetBoolFalse(string boolName)
+    public void AnimatorBoolFalse(string boolName)
     {
         GetComponent<Animator>().SetBool(boolName, false);
 

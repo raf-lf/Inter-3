@@ -5783,9 +5783,17 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: SetBoolFalse
+    functionName: AnimatorBoolFalse
     data: death
     objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.016666668
+    functionName: playSFX
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: 358e6fc1fc32e8b4995faf089fdf80a0,
+      type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

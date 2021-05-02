@@ -11,8 +11,7 @@ public abstract class Creature : MonoBehaviour
     [Header("Attack")]
     public float detectionRadius;
     public CircleCollider2D detectionTrigger;
-    public int damage;
-    public float knockback;
+    public LayerMask detectionMask;
 
     [Header("Movement")]
     public Vector2 moveDirection;
@@ -28,6 +27,7 @@ public abstract class Creature : MonoBehaviour
     [Header("Components")]
     public Rigidbody2D rb;
     public Animator anim;
+
 
     public virtual void Start()
     {
@@ -111,6 +111,11 @@ public abstract class Creature : MonoBehaviour
         if (hp <= 0) Death();
 
     }
+    public bool TargetInsideDetection()
+    {
+        if (Physics2D.OverlapCircle(transform.position, detectionRadius, detectionMask)) return true;
+        else return false;
+    }
 
     public virtual void Death()
     {
@@ -121,4 +126,9 @@ public abstract class Creature : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(1, 0, 0, .3f);
+        Gizmos.DrawWireSphere(new Vector3(transform.position.x, transform.position.y + 0.8f, transform.position.z), detectionRadius);
+    }
 }
