@@ -108,12 +108,10 @@ public class OscilantDud : Creature
     {
         if (Physics2D.OverlapBox(new Vector3(transform.position.x, transform.position.y + 0.8f, transform.position.z), new Vector2(3.2f, 2.4f), 0, detectionMask))
         {
-            Debug.Log("Found something!");
             return true;
         }
         else
         {
-            Debug.Log("Nothing here");
             return false;
         }
     }

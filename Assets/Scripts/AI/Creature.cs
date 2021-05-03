@@ -93,6 +93,7 @@ public abstract class Creature : MonoBehaviour
 
     public virtual void Damage(int hpLoss, float knockback, Transform sourcePosition)
     {
+        Debug.Log(gameObject.name + " took " + hpLoss + " damage. " + hp + " hp remaining.");
         if (hpLoss>0) damageFeedback();
         ChangeHp(hpLoss * -1);
 

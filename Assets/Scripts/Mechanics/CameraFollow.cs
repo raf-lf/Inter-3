@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public static GameObject MainCamera;
     public float followSpeed;
-    private Transform followTarget;
+    public Transform followTarget;
     public Vector3 offset;
     private Vector3 startOffset;
     public Vector3 pauseOffsetValues = new Vector3 (-5,0,5);
@@ -14,7 +13,7 @@ public class CameraFollow : MonoBehaviour
 
     void Start()
     {
-        MainCamera = this.gameObject;
+        GameManager.scriptCamera = GetComponent<CameraFollow>();
         startOffset = offset;
         //followTarget = Player.PlayerCharacter.transform;
     }

@@ -4,162 +4,164 @@ using UnityEngine;
 
 public class OscilantAnihilator : Creature
 {
-    private LayerMask movementLayerMask;
 
     [Header("Behavior")]
-    public bool hiding;
-    public bool onWatch;
-    public float restDuration = 2;
-    public float readyLungeDuration = 1;
-    public float lungeForce;
+    public bool active;
+    private bool busy;
+    public bool bossBatle;
+
+    [Header("Attack")]
+    public float attackRadius = 2;
+    public float attackCooldown = 4;
+    private float attackCooldownTimer;
+    public float attackAnimationDuration = 2;
+
+    [Header("Special")]
+    public float minionSpawnCooldown = 10;
+    private float minionSpawnCooldownTimer;
+
+    [Header("Components")]
     public GameObject damageVFX;
-    public GameObject deathVFX;
-    public float damagedKnockback;
+    public Animator eyeAnimator;
+    public Animator bladeAnimator;
+    public Rigidbody2D blades;
+    public ParticleSystem[] damageTierVfx = new ParticleSystem[3];
+    private ParticleSystem.EmissionModule[] damageTierVfxEmission = new ParticleSystem.EmissionModule[3];
 
 
 
     public override void Start()
     {
         base.Start();
-        if (hiding) anim.SetBool("hiding", true);
-        movementLayerMask = LayerMask.GetMask("Default");
+        for (int i = 0; i < damageTierVfx.Length; i++)
+        {
+            damageTierVfxEmission[i] = damageTierVfx[i].emission;
+        }
 
     }
 
-    public void State_ReadyLunge()
+    
+    public override void damageFeedback()
     {
-        onWatch = false;
-        FaceTarget(GameManager.PlayerCharacter);
-        anim.SetInteger("state", 2);
-        StopAllCoroutines();
-        StartCoroutine(DelayLunge());
-
+        Instantiate(damageVFX, transform);
     }
-
-    IEnumerator DelayLunge()
-    {
-        yield return new WaitForSeconds(readyLungeDuration);
-        State_Lunge(GameManager.PlayerCharacter);
-    }
-
-    public void State_Lunge(GameObject lungeTarget)
-    {
-        FaceTarget(lungeTarget);
-        anim.SetInteger("state", 3);
-
-        //Get difference between self and target positions
-        Vector3 difference = new Vector3(lungeTarget.transform.position.x, lungeTarget.transform.position.y + 1) - transform.position;
-        
-        //Aim self rotation at target position
-        float rotationZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
-
-        //Gets direction values for velocity
-        float distance = difference.magnitude;
-        Vector2 direction = difference / distance;
-        direction.Normalize();
-
-        float lungeForceVariance = lungeForce * Random.Range(0.8f, 1.2f);
-
-        //Applies lunge to direction of target
-        rb.velocity = direction * lungeForceVariance;
-
-    }
-
-    public void State_Rest()
-    {
-        anim.SetInteger("state", 0);
-        StopAllCoroutines();
-        StartCoroutine(DelayPatrol());
-
-    }
-
-    IEnumerator DelayPatrol()
-    {
-        yield return new WaitForSeconds(restDuration * Random.Range(0.8f, 1.2f));
-
-        anim.SetInteger("state", 1);
-    }
-
 
     public override void Death()
     {
         StopAllCoroutines();
-        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        GetComponent<Animator>().SetBool("death", true);
+        eyeAnimator.SetInteger("state", 3);
+        busy = true;
+        bladeAnimator.SetInteger("state",0);
+        anim.Play("death");
 
-        Instantiate(deathVFX, transform);
-    }
-
-    public override void damageFeedback()
-    {
-        onWatch = false;
-        Instantiate(damageVFX, transform);
-        rb.velocity += Vector2.up * damagedKnockback;
-    }
-
-    private void FaceTarget(GameObject target)
-    {
-        if (target.transform.position.x > transform.position.x && facingOpposite) ChangeDirection();
-        else if (target.transform.position.x < transform.position.x && facingOpposite == false) ChangeDirection();
-
-    }
-
-    public bool TargetInsideAmbushArea()
-    {
-        if (Physics2D.OverlapBox(new Vector3(transform.position.x, transform.position.y + 0.8f, transform.position.z), new Vector2(3.2f, 2.4f), 0, detectionMask))
+        if (bossBatle)
         {
-            Debug.Log("Found something!");
-            return true;
+            StartCoroutine(DeathEnd());
+            Player.PlayerControls = false;
+            GameManager.scriptMovement.HaltMovement();
+            GameManager.scriptCamera.followTarget = gameObject.transform;
         }
-        else
-        {
-            Debug.Log("Nothing here");
-            return false;
-        }
+
     }
-
-
-    public void finishedHiding()
+    IEnumerator DeathEnd()
     {
-        hiding = false;
+        yield return new WaitForSeconds(8);
+        Player.PlayerControls = true;
+        GameManager.scriptCamera.followTarget = GameManager.PlayerCharacter.transform;
+    }
+
+    public void bladeRotationBoost(float force)
+    {
+        blades.angularVelocity -= force;
 
     }
+    public void eyeAnimationControl (int state)
+    {
+        eyeAnimator.SetInteger("state", state);
+
+    }
+
+    private bool targetInAttackRange()
+    {
+        if (Physics2D.CircleCast(transform.position, attackRadius, Vector2.zero, 0, detectionMask)) return true;
+        else return false;
+
+    }
+
+    public void Attack()
+    {
+        busy = true;
+        eyeAnimator.SetInteger("state", 3);
+        anim.Play("attack");
+        bladeAnimator.Play("blades_attack");
+        attackCooldownTimer = Time.time + attackCooldown;
+        StopAllCoroutines();
+        StartCoroutine(AttackEnd());
+
+    }
+
+    IEnumerator AttackEnd()
+    {
+        yield return new WaitForSeconds(attackAnimationDuration);
+        busy = false;
+    }
+
+    private void finishedActivating()
+    {
+        active = true;
+        bladeAnimator.SetInteger("state", 1);
+
+    }
+
 
     private void Update()
     {
-        if (hiding)
-        {
+            if (hp < hpMax * 0.75 && hp>0) damageTierVfxEmission[0].enabled = true;
+            else damageTierVfxEmission[0].enabled = false;
 
-            if (TargetInsideAmbushArea())
+            if (hp < hpMax * 0.5 && hp > 0) damageTierVfxEmission[1].enabled = true;
+            else damageTierVfxEmission[1].enabled = false;
+
+            if (hp < hpMax * 0.25 && hp > 0) damageTierVfxEmission[2].enabled = true;
+            else damageTierVfxEmission[2].enabled = false;
+
+        if (active == false)
+        {
+            if (TargetInsideDetection() && anim.GetBool("active") == false)
             {
-                anim.SetBool("hiding", false);
-                Invoke("finishedHiding",1);
-                //  StopAllCoroutines();
-                // StartCoroutine(ReadyLunge(GameManager.PlayerCharacter));
+                anim.SetBool("active", true);
+                eyeAnimator.SetInteger("state", 1);
+                Invoke("finishedActivating", 1);
 
             }
+
         }
-        else if (anim.GetInteger("state") == 1)
+        else if (busy == false)
         {
-            if(TargetInsideDetection()) State_ReadyLunge();
 
-            else if (onWatch == false)
+            if (targetInAttackRange() == false)
             {
+                if (transform.position.x > GameManager.PlayerCharacter.transform.position.x)
+                {
+                    moveDirection = new Vector2(-1, 0);
+                    transform.rotation = Quaternion.Euler(0, 0, 0);
+                }
+                else
+                {
+                    moveDirection = new Vector2(1, 0);
+                    transform.rotation = Quaternion.Euler(0, 180, 0);
+                }
                 Move();
+                bladeAnimator.SetInteger("state", 1);
+                eyeAnimator.SetInteger("state", 1);
 
-                if (facingOpposite)
-                {
-                    if (Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y), Vector2.left, .33f, movementLayerMask))
-                    {
-                        //   Debug.Log("Changed direction to right.");
-                        ChangeDirection();
-                    }
-                }
-                else if (Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y), Vector2.right, .33f, movementLayerMask))
-                {
-                    // Debug.Log("Changed direction to left.");
-                    ChangeDirection();
-                }
+            }
+            else 
+            { 
+                StopMove();
+                bladeAnimator.SetInteger("state", 2);
+                eyeAnimator.SetInteger("state", 2);
+                if (Time.time > attackCooldownTimer) Attack();
             }
         }
 
@@ -167,9 +169,9 @@ public class OscilantAnihilator : Creature
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = new Color(1,0,0,.3f);
+        Gizmos.color = new Color(1,1,0,1f);
 
-        if (hiding) Gizmos.DrawCube(new Vector3(transform.position.x, transform.position.y + 0.8f, transform.position.z), new Vector2(3.2f, 2.4f));
+        Gizmos.DrawWireSphere(new Vector3(transform.position.x, transform.position.y + 0.8f, transform.position.z), attackRadius);
        // Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }
 }

@@ -22,6 +22,7 @@ public static class GameManager
 
     [Header("ScriptManagement")]
     public static GameObject PlayerCharacter;
+    public static CameraFollow scriptCamera;
     public static Hud scriptHud;
     public static Player scriptPlayer;
     public static PlayerWeapons scriptWeapons;
@@ -40,7 +41,7 @@ public static class GameManager
     public static void PauseGame(bool pause)
     {
         GamePaused = pause;
-        CameraFollow.MainCamera.GetComponent<CameraFollow>().PauseCameraOffset(pause);
+        scriptCamera.PauseCameraOffset(pause);
 
         if (pause) Time.timeScale = 0;
         else Time.timeScale = 1;
