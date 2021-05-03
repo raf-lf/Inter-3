@@ -19,12 +19,17 @@ public class OscilantAnihilator : Creature
     [Header("Special")]
     public float minionSpawnCooldown = 10;
     private float minionSpawnCooldownTimer;
+    public int avaiableMinions = 5;
 
     [Header("Components")]
     public GameObject damageVFX;
     public Animator eyeAnimator;
     public Animator bladeAnimator;
     public Rigidbody2D blades;
+    public GameObject[] teleportVFX = new GameObject[2];
+    public GameObject minion;
+    private Vector3 minionSpawnPosition;
+    public List<GameObject> minionList = new List<GameObject>();
     public ParticleSystem[] damageTierVfx = new ParticleSystem[3];
     private ParticleSystem.EmissionModule[] damageTierVfxEmission = new ParticleSystem.EmissionModule[3];
 
@@ -53,6 +58,14 @@ public class OscilantAnihilator : Creature
         busy = true;
         bladeAnimator.SetInteger("state",0);
         anim.Play("death");
+
+        /*
+         * minionList.Sort();
+        foreach (GameObject existingMinion in minionList)
+        {
+            existingMinion.GetComponent<OscilantDud>().Death();
+        }
+        */
 
         if (bossBatle)
         {
@@ -106,6 +119,32 @@ public class OscilantAnihilator : Creature
         busy = false;
     }
 
+    public void SpawnMinion()
+    {
+        avaiableMinions -= 1;
+        eyeAnimator.SetInteger("state", 4);
+        minionSpawnCooldownTimer = Time.time + minionSpawnCooldown;
+        minionSpawnPosition = new Vector3(transform.position.x + Random.Range(-3.2f, 3.2f), transform.position.y + Random.Range(0, 3.2f),0);
+
+        GameObject teleportCast = Instantiate(teleportVFX[1], eyeAnimator.gameObject.transform);
+
+        GameObject teleportTarget = Instantiate(teleportVFX[0]);
+        teleportTarget.transform.position = minionSpawnPosition;
+
+        Invoke("finishedSpawning", 1f);
+
+    }
+
+    private void finishedSpawning()
+    {
+        GameObject createdMinion = Instantiate(minion);
+        createdMinion.GetComponent<OscilantDud>().overlord = gameObject;
+        minionList.Add(createdMinion);
+        createdMinion.transform.position = minionSpawnPosition;
+        eyeAnimator.SetInteger("state", 1);
+
+    }
+
     private void finishedActivating()
     {
         active = true;
@@ -138,6 +177,11 @@ public class OscilantAnihilator : Creature
         }
         else if (busy == false)
         {
+            if(Time.time > minionSpawnCooldownTimer && hp <= hpMax*0.5f && hp>0)
+            {
+                if (avaiableMinions>0) SpawnMinion();
+
+            }
 
             if (targetInAttackRange() == false)
             {

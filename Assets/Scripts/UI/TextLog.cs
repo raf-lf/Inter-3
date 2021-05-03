@@ -12,6 +12,7 @@ public class TextLog: TextBoxParent
 
     private void Start()
     {
+        endTimer = 0;
         GameManager.scriptLog = GetComponent<TextLog>();
 
     }

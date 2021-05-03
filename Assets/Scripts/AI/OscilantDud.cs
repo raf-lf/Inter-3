@@ -16,6 +16,8 @@ public class OscilantDud : Creature
     public GameObject deathVFX;
     public float damagedKnockback;
 
+    public GameObject overlord;
+
 
 
     public override void Start()
@@ -88,6 +90,12 @@ public class OscilantDud : Creature
         GetComponent<Animator>().SetBool("death", true);
 
         Instantiate(deathVFX, transform);
+
+        if (overlord != null)
+        {
+            overlord.GetComponent<OscilantAnihilator>().avaiableMinions += 1;
+            overlord.GetComponent<OscilantAnihilator>().minionList.Remove(gameObject);
+        }
     }
 
     public override void damageFeedback()

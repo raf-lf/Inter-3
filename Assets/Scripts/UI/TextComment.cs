@@ -21,6 +21,7 @@ public class TextComment: TextBoxParent
     }
     public void Write(int level, int section, int line)
     {
+        endTimer = 0;
         currentLevel = level;
         currentSection = section;
         currentLine = line;

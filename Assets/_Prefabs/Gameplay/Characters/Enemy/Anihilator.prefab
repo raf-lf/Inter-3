@@ -43627,14 +43627,20 @@ MonoBehaviour:
   active: 0
   bossBatle: 0
   attackRadius: 2
-  attackCooldown: 0
-  attackAnimationDuration: 2
-  minionSpawnCooldown: 10
+  attackCooldown: 4
+  attackAnimationDuration: 1
+  minionSpawnCooldown: 8
+  avaiableMinions: 5
   damageVFX: {fileID: 3870851861012408772, guid: f20561c5a61119449b434dbf14d8933b,
     type: 3}
   eyeAnimator: {fileID: 2596751370257126312}
   bladeAnimator: {fileID: 8915359280964056727}
   blades: {fileID: 7574757954074632616}
+  teleportVFX:
+  - {fileID: 2146685942865904044, guid: 39f04cd57a8a2044c9cae3b25a2f8fcf, type: 3}
+  - {fileID: 2146685942865904044, guid: 2366f3df3f2dd0549988ff47a2f711f1, type: 3}
+  minion: {fileID: 6039247206017560617, guid: ea4f550f3a9dce3429294e01b8df521e, type: 3}
+  minionList: []
   damageTierVfx:
   - {fileID: 3228736565964086368}
   - {fileID: 8022186240382034120}
