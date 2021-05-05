@@ -600,7 +600,7 @@ public static class LibraryDialogue
                         {
                             case 1:
                                 currentPortraitId = 1;
-                                return "Minas terrestres na área, agente. Cuidado onde pisa.";
+                                return "Minas terrestres, agente. Tente não correr pela área.";
                             case 2:
                                 currentPortraitId = 0;
                                 return "Seria ótimo se os dilaceradores as ativassem...";

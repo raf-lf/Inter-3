@@ -21,6 +21,8 @@ public class TextLog: TextBoxParent
 
         textBoxAnimator.SetBool("active", true);
         textBoxText.text = text;
+        endTimer = Time.time + additionDelayTime +1;
+        canEnd = true;
 
     }
 

@@ -32958,6 +32958,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 341258185315356503, guid: f9ba7604536b51844998dbca103661eb,
         type: 3}
+      propertyPath: m_UsedByEffector
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 341258185315356503, guid: f9ba7604536b51844998dbca103661eb,
+        type: 3}
       propertyPath: m_Points.Array.size
       value: 12
       objectReference: {fileID: 0}
@@ -37443,12 +37448,12 @@ PrefabInstance:
     - target: {fileID: 4172648324059306452, guid: a3d246c36458c58458a4f255fa560830,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 56
       objectReference: {fileID: 0}
     - target: {fileID: 4172648324059306452, guid: a3d246c36458c58458a4f255fa560830,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 18.4
       objectReference: {fileID: 0}
     - target: {fileID: 4172648324059306452, guid: a3d246c36458c58458a4f255fa560830,
         type: 3}
@@ -53841,6 +53846,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07924e456139ff04eaaddf5e80f5b053, type: 3}
+--- !u!1 &2049651262 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 341258185315356523, guid: f9ba7604536b51844998dbca103661eb,
+    type: 3}
+  m_PrefabInstance: {fileID: 661496062}
+  m_PrefabAsset: {fileID: 0}
+--- !u!251 &2049651267
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2049651262}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 0
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!4 &2052928296 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 884606144076676917, guid: 320b75bfd716e6b4fb5417f9aa568c4f,

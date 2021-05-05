@@ -14,8 +14,8 @@ PlayerSettings:
   accelerometerFrequency: 60
   companyName: Space Bear Dab
   productName: Oscilante
-  defaultCursor: {fileID: 0}
-  cursorHotspot: {x: 0, y: 0}
+  defaultCursor: {fileID: 2800000, guid: f20ce2f031c57b64e8a5b02ab81370b2, type: 3}
+  cursorHotspot: {x: 8.5, y: 8.5}
   m_SplashScreenBackgroundColor: {r: 0.20754719, g: 0.20754719, b: 0.20754719, a: 1}
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Landmine : MonoBehaviour
 {
+    private bool activating;
     public float explosionDelay;
     public GameObject explosionEffect;
 
@@ -15,12 +16,16 @@ public class Landmine : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && activating == false)
         {
-            GetComponent<Animator>().SetBool("active", true);
-            Invoke("Explode", explosionDelay);
+            if (GameManager.scriptMovement.crouching == false && GameManager.scriptMovement.walking == false)
+            {
+                activating = true;
+                GetComponent<Animator>().SetBool("active", true);
+                Invoke("Explode", explosionDelay);
+            }
         }
     }
 }
