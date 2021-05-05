@@ -7,7 +7,7 @@ AnimatorStateMachine:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Base Layer
+  m_Name: Lever
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -1781234372465907149}
@@ -122,7 +122,7 @@ AnimatorController:
     m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
-    m_Name: Base Layer
+    m_Name: Lever
     m_StateMachine: {fileID: -8467836443843527199}
     m_Mask: {fileID: 0}
     m_Motions: []
@@ -147,11 +147,11 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0
+  m_ExitTime: 1
   m_HasExitTime: 1
-  m_HasFixedDuration: 1
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
@@ -203,7 +203,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 33db5b66921bd3340b3acec79a37add6, type: 2}
+  m_Motion: {fileID: 7400000, guid: 2f53c7f5a230dce4e9a1f79bb582b498, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

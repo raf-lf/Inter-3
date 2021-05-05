@@ -69,9 +69,9 @@ public class OscilantAnihilator : Creature
 
         if (bossBatle)
         {
+            GameManager.Cutscene(true);
             StartCoroutine(DeathEnd());
             Player.PlayerControls = false;
-            GameManager.scriptMovement.HaltMovement();
             GameManager.scriptCamera.followTarget = gameObject.transform;
         }
 
@@ -81,6 +81,7 @@ public class OscilantAnihilator : Creature
         yield return new WaitForSeconds(8);
         Player.PlayerControls = true;
         GameManager.scriptCamera.followTarget = GameManager.PlayerCharacter.transform;
+        GameManager.Cutscene(false);
     }
 
     public void bladeRotationBoost(float force)
@@ -122,7 +123,7 @@ public class OscilantAnihilator : Creature
     public void SpawnMinion()
     {
         avaiableMinions -= 1;
-        eyeAnimator.SetInteger("state", 4);
+        eyeAnimationControl(4);
         minionSpawnCooldownTimer = Time.time + minionSpawnCooldown;
         minionSpawnPosition = new Vector3(transform.position.x + Random.Range(-3.2f, 3.2f), transform.position.y + Random.Range(0, 3.2f),0);
 
@@ -164,48 +165,51 @@ public class OscilantAnihilator : Creature
             if (hp < hpMax * 0.25 && hp > 0) damageTierVfxEmission[2].enabled = true;
             else damageTierVfxEmission[2].enabled = false;
 
-        if (active == false)
+        if (GameManager.CutscenePlaying == false)
         {
-            if (TargetInsideDetection() && anim.GetBool("active") == false)
+            if (active == false)
             {
-                anim.SetBool("active", true);
-                eyeAnimator.SetInteger("state", 1);
-                Invoke("finishedActivating", 1);
-
-            }
-
-        }
-        else if (busy == false)
-        {
-            if(Time.time > minionSpawnCooldownTimer && hp <= hpMax*0.5f && hp>0)
-            {
-                if (avaiableMinions>0) SpawnMinion();
-
-            }
-
-            if (targetInAttackRange() == false)
-            {
-                if (transform.position.x > GameManager.PlayerCharacter.transform.position.x)
+                if (TargetInsideDetection() && anim.GetBool("active") == false)
                 {
-                    moveDirection = new Vector2(-1, 0);
-                    transform.rotation = Quaternion.Euler(0, 0, 0);
+                    anim.SetBool("active", true);
+                    eyeAnimator.SetInteger("state", 1);
+                    Invoke("finishedActivating", 1);
+
+                }
+
+            }
+            else if (busy == false)
+            {
+                if (Time.time > minionSpawnCooldownTimer && hp <= hpMax * 0.5f && hp > 0)
+                {
+                    if (avaiableMinions > 0) SpawnMinion();
+
+                }
+
+                if (targetInAttackRange() == false)
+                {
+                    if (transform.position.x > GameManager.PlayerCharacter.transform.position.x)
+                    {
+                        moveDirection = new Vector2(-1, 0);
+                        transform.rotation = Quaternion.Euler(0, 0, 0);
+                    }
+                    else
+                    {
+                        moveDirection = new Vector2(1, 0);
+                        transform.rotation = Quaternion.Euler(0, 180, 0);
+                    }
+                    Move();
+                    bladeAnimator.SetInteger("state", 1);
+                    eyeAnimator.SetInteger("state", 1);
+
                 }
                 else
                 {
-                    moveDirection = new Vector2(1, 0);
-                    transform.rotation = Quaternion.Euler(0, 180, 0);
+                    StopMove();
+                    bladeAnimator.SetInteger("state", 2);
+                    eyeAnimator.SetInteger("state", 2);
+                    if (Time.time > attackCooldownTimer) Attack();
                 }
-                Move();
-                bladeAnimator.SetInteger("state", 1);
-                eyeAnimator.SetInteger("state", 1);
-
-            }
-            else 
-            { 
-                StopMove();
-                bladeAnimator.SetInteger("state", 2);
-                eyeAnimator.SetInteger("state", 2);
-                if (Time.time > attackCooldownTimer) Attack();
             }
         }
 

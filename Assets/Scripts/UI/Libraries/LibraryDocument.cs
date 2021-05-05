@@ -26,9 +26,9 @@ public static class LibraryDocument
                         case 1:
                             return ("Ficha Médica de Criança");
                         case 2:
-                            return ("Despedida par o Marido");
+                            return ("Despedida para o Marido");
                         case 3:
-                            if (ReportCheck(category)) return ("Relatório: Mundo");
+                            if (ReportCheck(category)) return ("Análise do Mundo");
                             else return noReportTitle;
                         default:
                             return error;
@@ -39,11 +39,11 @@ public static class LibraryDocument
                         case 0:
                             return ("Oração Funerária");
                         case 1:
-                            return ("Propagada do Líder");
+                            return ("Biografia de Propagada do Líder");
                         case 2:
                             return ("Estratégia de Combate");
                         case 3:
-                            if (ReportCheck(category)) return ("Relatório: Governo");
+                            if (ReportCheck(category)) return ("Análise do Governo");
                                 else return noReportTitle;
                         default:
                             return error;
@@ -58,7 +58,7 @@ public static class LibraryDocument
                         case 2:
                             return ("Chamado às Armas");
                         case 3:
-                            if (ReportCheck(category)) return ("Relatório: Resistência");
+                            if (ReportCheck(category)) return ("Análise da Resistência");
                             else return noReportTitle;
                         default:
                             return error;
@@ -73,7 +73,7 @@ public static class LibraryDocument
                         case 2:
                             return ("Lista de Alvos");
                         case 3:
-                            if (ReportCheck(category)) return ("Relatório: Oscilantes");
+                            if (ReportCheck(category)) return ("Análise dos Oscilantes");
                             else return noReportTitle;
                         default:
                             return error;
@@ -98,7 +98,17 @@ public static class LibraryDocument
                         case 1:
                             return ("Descrição da Ficha Médica de Criança.");
                         case 2:
-                            return ("Descrição da Despedida par o Marido.");
+                            return ("Beto, eu sinto muito. \n\nEu sei que estamos casados a pouco tempo e que você queria um tempo comigo durante esse final de semana, " +
+                                "mas eu preciso te contar o que aconteceu, e não consigo fazer isso olhando nos seus olhos, neste momento.\n\n Minha carreira e anos " +
+                                "de estudo jogados fora. Lembro quando eu era um jovem cursando economia, empolgado com a vida e com vontade de bater de frente " +
+                                "contra a sociedade.Provar para todos eles que não importa o que eles pensam de mim, eu seria o cara mais bem sucedido de todos!\n\n" +
+                                "A empresa mandou todos os funcionários embora a algumas horas atrás.Eu nunca tinha visto o Felipe chorar tanto, eles tiveram que o" +
+                                "restringir para que ele não se jogasse na frente dos carros. Honestamente, me surpreende como conseguimos ficar tanto tempo de portas " +
+                                "abertas com esta maldita guerra. Eu acho que foi culpa daqueles vídeos que estão divulgando sobre uma suposta arma química.Espero que " +
+                                "seja tudo uma mentira.\n\n Eu preciso de um tempo..Vou pras montanhas, quem sabe todo aquele meu conhecimento de escoteiro de quando " +
+                                "eu era moleque me ajude nesse momento difícil? \n\n Volte para a casa dos seus pais esse final de semana, fuja dessa cidade horrível " +
+                                "por pelo menos alguns dias. Eu volto quando tiver com a cabeça melhor. Aí penso como reconstruir minha vida nesse mundo de merda.\n\n" +
+                                "Desculpe, mas eu preciso ficar sozinho.\nTe amo, Carlos.");
                         case 3:
                             if (ReportCheck(category)) return ("Descrição do Relatório: Mundo");
                             else return noReport;

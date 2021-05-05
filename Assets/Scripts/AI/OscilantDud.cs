@@ -133,42 +133,44 @@ public class OscilantDud : Creature
 
     private void Update()
     {
-        if (hiding)
+        if (GameManager.CutscenePlaying == false)
         {
-
-            if (TargetInsideAmbushArea())
+            if (hiding)
             {
-                anim.SetBool("hiding", false);
-                Invoke("finishedHiding",1);
-                //  StopAllCoroutines();
-                // StartCoroutine(ReadyLunge(GameManager.PlayerCharacter));
 
-            }
-        }
-        else if (anim.GetInteger("state") == 1)
-        {
-            if(TargetInsideDetection()) State_ReadyLunge();
-
-            else if (onWatch == false)
-            {
-                Move();
-
-                if (facingOpposite)
+                if (TargetInsideAmbushArea())
                 {
-                    if (Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y), Vector2.left, .33f, movementLayerMask))
+                    anim.SetBool("hiding", false);
+                    Invoke("finishedHiding", 1);
+                    //  StopAllCoroutines();
+                    // StartCoroutine(ReadyLunge(GameManager.PlayerCharacter));
+
+                }
+            }
+            else if (anim.GetInteger("state") == 1)
+            {
+                if (TargetInsideDetection()) State_ReadyLunge();
+
+                else if (onWatch == false)
+                {
+                    Move();
+
+                    if (facingOpposite)
                     {
-                        //   Debug.Log("Changed direction to right.");
+                        if (Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y), Vector2.left, .33f, movementLayerMask))
+                        {
+                            //   Debug.Log("Changed direction to right.");
+                            ChangeDirection();
+                        }
+                    }
+                    else if (Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y), Vector2.right, .33f, movementLayerMask))
+                    {
+                        // Debug.Log("Changed direction to left.");
                         ChangeDirection();
                     }
                 }
-                else if (Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y), Vector2.right, .33f, movementLayerMask))
-                {
-                    // Debug.Log("Changed direction to left.");
-                    ChangeDirection();
-                }
             }
         }
-
     }
 
     private void OnDrawGizmos()

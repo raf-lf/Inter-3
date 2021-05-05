@@ -5,9 +5,13 @@ using UnityEngine;
 public class PlayerAudio : MonoBehaviour
 {
     [Header("Movement")]
+    public AudioClip[] stepSfxLadder = new AudioClip[3];
+
+    [Header("Footsteps")]
     public int floorType;
     public AudioClip[] stepSfxDirt = new AudioClip[3];
     public AudioClip[] stepSfxStone = new AudioClip[3];
+    public AudioClip[] stepSfxMetal = new AudioClip[3];
 
     [Header("Weapons")]
     public AudioClip[] sfxReload = new AudioClip[1];
@@ -33,7 +37,16 @@ public class PlayerAudio : MonoBehaviour
             case 1:
                 GameManager.sfxAudioSource.PlayOneShot(stepSfxStone[(int)Random.Range(0, 3)]);
                 break;
+            case 2:
+                GameManager.sfxAudioSource.PlayOneShot(stepSfxMetal[(int)Random.Range(0, 3)]);
+                break;
         }
+    }
+    public void LadderStepSfx()
+    {
+        GameManager.sfxAudioSource.volume = 1;
+        GameManager.sfxAudioSource.pitch = Random.Range(.9f, 1.1f);
+        GameManager.sfxAudioSource.PlayOneShot(stepSfxLadder[(int)Random.Range(0, 3)]);
     }
 
 }

@@ -8,11 +8,12 @@ public static class GameManager
     [Header("Management")]
     public static bool GamePaused;
     public static bool CantPause;
+    public static bool CutscenePlaying;
 
     [Header("Resources")]
-    public static int ItemHeal = 30;
-    public static int ItemGrenade = 30;
-    public static int[] AmmoClips = { 0, 4, 2 };
+    public static int ItemHeal = 5;
+    public static int ItemGrenade = 3;
+    public static int[] AmmoClips = { 0, 3, 0 };
 
 
     [Header("Collectibles")]
@@ -20,7 +21,7 @@ public static class GameManager
     public static bool[,] documents = new bool[4, 4];
     public static bool[] medals = new bool[3];
 
-    [Header("ScriptManagement")]
+    [Header("Script Management")]
     public static GameObject PlayerCharacter;
     public static CameraFollow scriptCamera;
     public static Hud scriptHud;
@@ -33,6 +34,7 @@ public static class GameManager
     public static TextLog scriptLog;
     public static TextComment scriptComment;
     public static TextDialogue scriptDialogue;
+    public static Cutscene currentCutscene;
 
     public static AudioSource sfxAudioSource;
 
@@ -47,4 +49,11 @@ public static class GameManager
         else Time.timeScale = 1;
     }
 
+    public static void Cutscene(bool on)
+    {
+        CutscenePlaying = on;
+        Player.PlayerControls = !on;
+        scriptMovement.HaltMovement(on);
+
+    }
 }

@@ -5,31 +5,44 @@ using UnityEngine;
 
 public class TextDialogue: TextBoxParent
 {
+    private bool dialogueOn;
     private bool canSkip;
     private bool onLastLine;
 
-    private int currentLevel;
-    private int currentSection;
-    private int currentLine;
+    public int currentLevel;
+    public int currentChat;
+    public int currentSection;
+    public int currentLine;
 
     private void Start()
     {
         GameManager.scriptDialogue = GetComponent<TextDialogue>();
 
     }
-    public void Write(int level, int section, int line)
+    public void Write(int level, int chat, int section, int line)
     {
-        Player.PlayerControls = false;
-        GameManager.scriptMovement.HaltMovement();
+        dialogueOn = true;
+
+        if (GameManager.scriptComment.textBoxAnimator.GetBool("active"))
+        {
+            GameManager.scriptComment.StopAllCoroutines();
+            GameManager.scriptComment.CloseTextBox();
+        }
+        if (GameManager.scriptLog.textBoxAnimator.GetBool("active"))
+        {
+            GameManager.scriptLog.StopAllCoroutines();
+            GameManager.scriptLog.CloseTextBox();
+        }
 
         currentLevel = level;
+        currentChat = chat;
         currentSection = section;
         currentLine = line;
 
         canSkip = true;
-        Write(LibraryDialogue.RetrieveDialogue(level, section, line));
+        Write(LibraryDialogue.RetrieveDialogue(level, chat, section, line));
 
-        if (LibraryDialogue.RetrieveDialogue(level, section, line + 1) == null) onLastLine = true;
+        if (LibraryDialogue.RetrieveDialogue(level, chat, section, line + 1) == null) onLastLine = true;
         else onLastLine = false;
 
     }
@@ -42,24 +55,33 @@ public class TextDialogue: TextBoxParent
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (dialogueOn == true)
         {
-            if (canSkip)
+            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Escape))
             {
-                StopAllCoroutines();
-                textBoxText.text = textToWrite;
-                FinishedTypeWriting();
-            }
-            else if (canEnd == true)
-            {
-                if (onLastLine)
+                if (canSkip)
                 {
-                    CloseTextBox();
-
-                    Player.PlayerControls = true;
+                    StopAllCoroutines();
+                    textBoxText.text = textToWrite;
+                    FinishedTypeWriting();
                 }
-                else Write(currentLevel, currentSection, currentLine + 1);
+                else if (canEnd == true)
+                {
+                    if (onLastLine)
+                    {
+                        CloseTextBox();
+                        dialogueOn = false;
 
+                        if (GameManager.CutscenePlaying)
+                        {
+                            GameManager.currentCutscene.currentEvent += 1;
+                            GameManager.currentCutscene.PlayEvent();
+                        }
+                        else GameManager.Cutscene(false);
+                    }
+                    else Write(currentLevel, currentChat, currentSection, currentLine + 1);
+
+                }
             }
         }
         

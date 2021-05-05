@@ -21,7 +21,7 @@ public abstract class TextBoxParent : MonoBehaviour
         if (textBoxPortrait != null) textBoxPortrait.sprite = LibraryDialogue.characterPortrait[LibraryDialogue.currentPortraitId];
     }
 
-    public void Write (string text)
+    public virtual void Write (string text)
     {
         SetPortrait();
 

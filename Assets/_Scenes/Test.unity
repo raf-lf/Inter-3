@@ -99,7 +99,7 @@ LightmapSettings:
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000000, guid: 3cef5f5e3bddb1941b4c33bf33dd0bef,
     type: 2}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -374,11 +374,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f49f51e3bb74b34bb45fb813c6526c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  off: 0
   level: 1
-  dialogue: 1
+  chat: 0
+  section: 0
   line: 1
   narrativeType: 1
   logMessage: 
+  cutsceneScript: {fileID: 0}
+  beginWithEvent: 0
 --- !u!61 &87473882
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -700,97 +704,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2024133451}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &163272154
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 163272155}
-  - component: {fileID: 163272157}
-  - component: {fileID: 163272156}
-  m_Layer: 0
-  m_Name: TimeLine Test
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &163272155
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 163272154}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 723404597}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &163272156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 163272154}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Events:
-    m_Signals:
-    - {fileID: 11400000, guid: 3e109d1bfb779984089bdbf04058cbae, type: 2}
-    m_Events:
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1787662705}
-          m_MethodName: SwapWeapon
-          m_Mode: 3
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 1
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 163272154}
-          m_MethodName: 
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: 
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
---- !u!320 &163272157
-PlayableDirector:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 163272154}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: ba93899bebf06b044b172d91599ea94c, type: 2}
-  m_InitialState: 1
-  m_WrapMode: 2
-  m_DirectorUpdateMode: 1
-  m_InitialTime: 0
-  m_SceneBindings:
-  - key: {fileID: 3993901887085517961, guid: ba93899bebf06b044b172d91599ea94c, type: 2}
-    value: {fileID: 1787662700}
-  m_ExposedReferences:
-    m_References: []
 --- !u!1 &173013148
 GameObject:
   m_ObjectHideFlags: 0
@@ -1239,11 +1152,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f49f51e3bb74b34bb45fb813c6526c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  off: 0
   level: 1
-  dialogue: 1
+  chat: 0
+  section: 0
   line: 1
   narrativeType: 2
   logMessage: 
+  cutsceneScript: {fileID: 0}
+  beginWithEvent: 0
 --- !u!61 &299577348
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1365,11 +1282,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f49f51e3bb74b34bb45fb813c6526c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  off: 0
   level: 0
-  dialogue: 0
+  chat: 0
+  section: 0
   line: 0
   narrativeType: 3
   logMessage: "Sim, \xE9 mesmo."
+  cutsceneScript: {fileID: 0}
+  beginWithEvent: 0
 --- !u!61 &302038336
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7272,6 +7193,7 @@ SpriteShapeRenderer:
   - {fileID: 21300000, guid: 4cb8ca48de143ae4d968701ea356c582, type: 3}
   - {fileID: 21300000, guid: ff95cf22d203cc7489db6f6e6e0a3a71, type: 3}
   - {fileID: 21300000, guid: f89d430ec5247a94d8b6543010839523, type: 3}
+  - {fileID: 21300000, guid: 7af52efad1c424e4584ea2b223ae03cc, type: 3}
   m_LocalAABB:
     m_Center: {x: -20.510002, y: 2.0549736, z: -0.00100005}
     m_Extent: {x: 52.429947, y: 12.404975, z: 0.00100005}
@@ -7680,7 +7602,6 @@ Transform:
   - {fileID: 933212324}
   - {fileID: 1372020581}
   - {fileID: 87473880}
-  - {fileID: 163272155}
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8326,11 +8247,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f49f51e3bb74b34bb45fb813c6526c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  off: 0
   level: 1
-  dialogue: 1
+  chat: 0
+  section: 0
   line: 1
   narrativeType: 1
   logMessage: 
+  cutsceneScript: {fileID: 0}
+  beginWithEvent: 0
 --- !u!61 &933212326
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8851,11 +8776,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f49f51e3bb74b34bb45fb813c6526c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  off: 0
   level: 1
-  dialogue: 2
+  chat: 0
+  section: 0
   line: 1
   narrativeType: 2
   logMessage: 
+  cutsceneScript: {fileID: 0}
+  beginWithEvent: 0
 --- !u!61 &1087904195
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9778,11 +9707,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f49f51e3bb74b34bb45fb813c6526c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  off: 0
   level: 1
-  dialogue: 2
+  chat: 0
+  section: 0
   line: 1
   narrativeType: 1
   logMessage: 
+  cutsceneScript: {fileID: 0}
+  beginWithEvent: 0
 --- !u!61 &1372020583
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9950,11 +9883,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f49f51e3bb74b34bb45fb813c6526c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  off: 0
   level: 0
-  dialogue: 0
+  chat: 0
+  section: 0
   line: 0
   narrativeType: 3
   logMessage: Oh
+  cutsceneScript: {fileID: 0}
+  beginWithEvent: 0
 --- !u!61 &1391285250
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10169,6 +10106,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 597583693902506804, guid: a12b6866c39bec74d995f3d444e675eb,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 597583693902506804, guid: a12b6866c39bec74d995f3d444e675eb,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 597583693902506804, guid: a12b6866c39bec74d995f3d444e675eb,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 707979650604212443, guid: a12b6866c39bec74d995f3d444e675eb,
         type: 3}
       propertyPath: m_Color.b
@@ -10378,6 +10330,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5861251349589214792, guid: a12b6866c39bec74d995f3d444e675eb,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931479317889113398, guid: a12b6866c39bec74d995f3d444e675eb,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6854508209845027468, guid: a12b6866c39bec74d995f3d444e675eb,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -10435,11 +10397,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f49f51e3bb74b34bb45fb813c6526c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  off: 0
   level: 0
-  dialogue: 0
+  chat: 0
+  section: 0
   line: 0
   narrativeType: 3
   logMessage: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+  cutsceneScript: {fileID: 0}
+  beginWithEvent: 0
 --- !u!61 &1591644365
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11578,24 +11544,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea4f550f3a9dce3429294e01b8df521e, type: 3}
---- !u!95 &1787662700 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 4172648324059306287, guid: a3d246c36458c58458a4f255fa560830,
-    type: 3}
-  m_PrefabInstance: {fileID: 2140910272}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1787662705 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4172648324059306448, guid: a3d246c36458c58458a4f255fa560830,
-    type: 3}
-  m_PrefabInstance: {fileID: 2140910272}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9133d4dd1ada5ab459e6637b320240d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1810918504
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12244,11 +12192,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f49f51e3bb74b34bb45fb813c6526c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  off: 0
   level: 1
-  dialogue: 2
+  chat: 0
+  section: 0
   line: 1
   narrativeType: 2
   logMessage: 
+  cutsceneScript: {fileID: 0}
+  beginWithEvent: 0
 --- !u!61 &1982820705
 BoxCollider2D:
   m_ObjectHideFlags: 0

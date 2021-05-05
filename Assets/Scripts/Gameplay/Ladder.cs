@@ -22,7 +22,7 @@ public class Ladder : MonoBehaviour
 
         }
         GameManager.PlayerCharacter.transform.position = new Vector3(transform.position.x, GameManager.PlayerCharacter.transform.position.y, GameManager.PlayerCharacter.transform.position.z);
-        GameManager.scriptMovement.HaltMovement();
+        GameManager.scriptMovement.rb.velocity = Vector2.zero;
         GameManager.scriptMovement.Climb(true);
     }
 

@@ -5,17 +5,48 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public float followSpeed;
+    private float startFollowSpeed;
     public Transform followTarget;
     public Vector3 offset;
     private Vector3 startOffset;
-    public Vector3 pauseOffsetValues = new Vector3 (-5,0,5);
+    public Vector3 pauseOffsetValues = new Vector3(-5,0,5);
     private Vector3 pauseOffset;
 
     void Start()
     {
         GameManager.scriptCamera = GetComponent<CameraFollow>();
         startOffset = offset;
+        startFollowSpeed = followSpeed;
         //followTarget = Player.PlayerCharacter.transform;
+    }
+
+    public void ChangeOffset(Vector3 offsetChange)
+    {
+        offset = offsetChange;
+
+    }
+
+    public void ResetOffset()
+    {
+        offset = startOffset;
+
+    }
+
+    public void ChangeTarget(Transform target)
+    {
+        followTarget = target;
+
+    }
+
+    public void ResetTarget()
+    {
+        followTarget = GameManager.PlayerCharacter.transform;
+
+    }
+    public void ResetLerpSpeed()
+    {
+        followSpeed = startFollowSpeed;
+
     }
 
     public void PauseCameraOffset(bool pause)
@@ -29,16 +60,6 @@ public class CameraFollow : MonoBehaviour
             pauseOffset -= pauseOffsetValues;
         }
 
-    }
-
-    public void ChangeFocus(Vector2 newOffeset)
-    {
-        offset = newOffeset;
-    }
-
-    public void ResetFocus()
-    {
-        offset = startOffset;
     }
 
     void Update()

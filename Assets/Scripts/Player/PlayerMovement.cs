@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeedMax = 6;
     public float crouchSpeedMax = 2;
     public float climbSpeedMax = 2;
+    public float walkSpeedMax = 1;
     public float rollSpeedBoost = 4;
 
     private float currentTopSpeed;
@@ -36,12 +37,15 @@ public class PlayerMovement : MonoBehaviour
     public bool onGround;
     public bool canStand;
     public bool climbing;
+    public bool walking;
+
+    private bool movementHeld;
     private RaycastHit2D onGroundRay;
 
     public static bool facingLeft = false;
 
-    private Rigidbody2D rb;
-    private Animator animator;
+    public Rigidbody2D rb;
+    public Animator animator;
 
     private LayerMask jumpableMask;
     private float jumpFallTimer;
@@ -139,10 +143,10 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = direction * knockback;
     }
 
-    public void HaltMovement()
+    public void HaltMovement(bool hold)
     {
-        if (move) move = false;
-        rb.velocity = new Vector2(0,0);
+        movementHeld = hold;
+        move = false;
     }
 
     public void Crouch(bool crouched)
@@ -196,11 +200,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if (GameManager.GamePaused == false)
         {
+
             if (climbOn)
             {
                 jumping = false;
                 rb.gravityScale = 0;
 
+                GameManager.scriptAudio.LadderStepSfx();
                 GameManager.scriptWeapons.equipedWeaponMemory = PlayerWeapons.equipedWeapon;
                 GameManager.scriptWeapons.SwapWeapon(PlayerWeapons.equipedWeapon);
                 Player.CantAct = true;
@@ -228,7 +234,7 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    void Movement (bool moving, bool moveLeft)
+    public void Movement (bool moving, bool moveLeft)
     {
         if (moving)
         {
@@ -241,6 +247,7 @@ public class PlayerMovement : MonoBehaviour
 
             //Sets top speed based on movement type
             if (crouching) currentTopSpeed = crouchSpeedMax;
+            else if (walking) currentTopSpeed = walkSpeedMax;
             else currentTopSpeed = moveSpeedMax;
 
             Vector2 speedChange = new Vector2(moveSpeedIncrement, 0);
@@ -252,12 +259,6 @@ public class PlayerMovement : MonoBehaviour
                     rb.velocity -= speedChange;
                 }
                 
-                /*
-                else if (rb.velocity.x < currentTopSpeed * -1)
-                {
-                    rb.velocity += speedChange;
-                }
-                */
                 
                 
             }
@@ -266,14 +267,7 @@ public class PlayerMovement : MonoBehaviour
                 if (rb.velocity.x < currentTopSpeed)
                 {
                     rb.velocity += speedChange;
-                }
-                
-                /*          
-                else if (rb.velocity.x > currentTopSpeed)
-                {
-                    rb.velocity -= speedChange;
-                }
-                */                
+                }       
             }
         }
 
@@ -288,6 +282,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (movementHeld) Movement(false, false);
+
         //Detect if the player can stand for crouching purposes
         canStand = HasRoomToStand();
 
@@ -306,6 +302,7 @@ public class PlayerMovement : MonoBehaviour
         if (move == true)
         {
             animator.SetBool("move", true);
+
         }
         else
         {
@@ -360,6 +357,17 @@ public class PlayerMovement : MonoBehaviour
                 //Stop movement when not trying to move
                 if (Input.GetKey(KeyCode.D) == false && Input.GetKey(KeyCode.A) == false) Movement(false, false);
 
+                if (Input.GetKey(PlayerActions.keyWalk) && crouching == false && GameManager.scriptPlayer.inCover == false)
+                {
+                    animator.SetBool("walk", true);
+                    walking = true;
+                }
+                else
+                {
+                    animator.SetBool("walk", false);
+                    walking = false;
+                }
+
                 //Stop movement when pressing both move keys
                 if (Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.A)) Movement(false, false);
 
@@ -394,6 +402,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+
         //Boosts jump force if jump key continues being pressed
         if (Input.GetKey(PlayerActions.keyJump) && jumping && canJumpBoost) JumpBoost();
 

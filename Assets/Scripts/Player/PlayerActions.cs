@@ -15,6 +15,7 @@ public class PlayerActions : MonoBehaviour
     static public KeyCode keyReload = KeyCode.R;
     static public KeyCode keyCover = KeyCode.W;
     static public KeyCode keyCrouch = KeyCode.S;
+    static public KeyCode keyWalk = KeyCode.LeftShift;
 
     static public KeyCode[] keyWeapon = {KeyCode.Alpha1, KeyCode.Alpha2 , KeyCode.Alpha3};
 
@@ -37,9 +38,12 @@ public class PlayerActions : MonoBehaviour
     private float throwAnimationEnd = .5f;
     private float throwCooldown = .5f;
     private float throwCooldownTimer;
-    public Animator actionAnimator;
+    public Animator[] actionArmAnimator = new Animator[2];
     public Transform actionHand;
 
+    [Header("Animation Test")]
+    static public KeyCode keyTest = KeyCode.C;
+    private bool inTestAnimation;
 
     private void ItemHealUse()
     {
@@ -76,11 +80,11 @@ public class PlayerActions : MonoBehaviour
         {
             GameManager.ItemGrenade -= 1;
 
-            actionAnimator.Play("actionArm_throw");
+            actionArmAnimator[0].Play("actionArm_throw");
 
             StopAllCoroutines();
-            StartCoroutine(ActionAnimations(true, 0));
-            StartCoroutine(ActionAnimations(false, throwAnimationEnd));
+            StartCoroutine(RightActionArmReady(0));
+            StartCoroutine(ActionArmEnd(throwAnimationEnd));
 
             throwCooldownTimer = Time.time + throwCooldown;
 
@@ -102,21 +106,39 @@ public class PlayerActions : MonoBehaviour
         grenade.GetComponent<Rigidbody2D>().angularVelocity += throwRotationSpeed;   
     }
 
-    IEnumerator ActionAnimations(bool enter, float delay)
+    IEnumerator EnableDisableActions(bool disable, float delay)
     {
         yield return new WaitForSeconds(delay);
-        if (enter)
-        {
+        Player.CantAct = disable;
+
+    }
+
+    IEnumerator RightActionArmReady(float delay)
+    {
+        yield return new WaitForSeconds(delay);
             Player.CantAct = true;
             GameManager.scriptWeapons.HideUnhideWeapons(true);
             GameManager.scriptWeapons.playerArms[0].enabled = false;
             GameManager.scriptWeapons.playerArms[1].enabled = true;
-        }
-        else
-        {
+
+    }
+
+    IEnumerator LeftActionArmReady(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+            Player.CantAct = true;
+            GameManager.scriptWeapons.HideUnhideWeapons(true);
+            GameManager.scriptWeapons.playerArms[0].enabled = true;
+            GameManager.scriptWeapons.playerArms[1].enabled = false;
+
+    }
+
+    IEnumerator ActionArmEnd(float delay)
+    {
+        yield return new WaitForSeconds(delay);
             Player.CantAct = false;
             GameManager.scriptWeapons.HideUnhideWeapons(false);
-            
+
             switch (PlayerWeapons.equipedWeapon)
             {
                 case -1:
@@ -133,6 +155,45 @@ public class PlayerActions : MonoBehaviour
                     break;
             }
 
+    }
+
+    public void CommsAnimation(int animationToPlay)
+    {
+
+        switch (animationToPlay)
+        {
+            case 1:
+                StartCoroutine(LeftActionArmReady(0));
+                actionArmAnimator[1].Play("commsOn");
+                break;
+            case 2:
+                StartCoroutine(ActionArmEnd(1.3f));
+                actionArmAnimator[1].Play("commsOff");
+                break;
+            case 3:
+                StartCoroutine(LeftActionArmReady(0));
+                actionArmAnimator[1].Play("commsCall");
+                break;
+
+        }
+
+    }
+
+    public void testAnimationUse()
+    {
+        if (Player.CantAct == false && inTestAnimation == false)
+        {
+            StartCoroutine(LeftActionArmReady(0));
+            StartCoroutine(EnableDisableActions(false, 2));
+            actionArmAnimator[1].Play("commsOn");
+            inTestAnimation = true;
+        }
+
+        else if (Player.CantAct == false && inTestAnimation == true)
+        {
+            StartCoroutine(ActionArmEnd(1.3f));
+            actionArmAnimator[1].Play("commsOff");
+            inTestAnimation = false;
         }
 
     }
@@ -141,6 +202,11 @@ public class PlayerActions : MonoBehaviour
     {
         if (GameManager.GamePaused == false)
         {
+            if (Input.GetKeyDown(keyTest))
+            {
+                testAnimationUse();
+
+            }
             if (Input.GetKeyDown(keyHeal))
             {
                 ItemHealUse();

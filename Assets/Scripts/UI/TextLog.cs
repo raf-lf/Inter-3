@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TextLog: TextBoxParent
 {
-    public float timeDelayPerCharacter = 0.1f;
+    public float timeDelayPerCharacter = 0.01f;
     public float additionDelayTime = 2;
     private float endTimer;
     private bool timerOn;
@@ -14,6 +14,13 @@ public class TextLog: TextBoxParent
     {
         endTimer = 0;
         GameManager.scriptLog = GetComponent<TextLog>();
+
+    }
+    public override void Write(string text)
+    {
+
+        textBoxAnimator.SetBool("active", true);
+        textBoxText.text = text;
 
     }
 

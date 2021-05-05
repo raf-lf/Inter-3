@@ -69,7 +69,7 @@ public class Player : MonoBehaviour
         DamageCollider.enabled = false;
 
         Animator anim = GetComponent<Animator>();
-        anim.SetBool("death", true);
+        anim.Play("death");
         GameManager.scriptWeapons.SwapWeapon(PlayerWeapons.equipedWeapon);
         PlayerControls = false;
         shaderAnimator.SetBool("dead", true);
@@ -118,8 +118,8 @@ public class Player : MonoBehaviour
 
             CoverCollider.enabled = covering;
             DamageCollider.enabled = !covering;
-
-            if (covering) GetComponent<PlayerMovement>().HaltMovement();
+            
+            GameManager.scriptMovement.HaltMovement(covering);
 
             Animator anim = GetComponent<Animator>();
             anim.SetBool("cover", covering);
