@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayAudio : MonoBehaviour
 {
     public bool playOnAwake;
+
+    public AudioSource source;
     public float volume;
     public Vector2 pitchVariance;
     public AudioClip[] audioClip = new AudioClip[1];
@@ -17,9 +19,10 @@ public class PlayAudio : MonoBehaviour
 
     public void playSFX()
     {
-        GameManager.sfxAudioSource.volume = volume;
-        GameManager.sfxAudioSource.pitch = Random.Range(pitchVariance.x, pitchVariance.y);
-        GameManager.sfxAudioSource.PlayOneShot(audioClip[(int)Random.Range(0,audioClip.Length)]);
+        source.volume = volume * GameManager.volumeSFX;
+        source.pitch = Random.Range(pitchVariance.x, pitchVariance.y);
+        source.PlayOneShot(audioClip[(int)Random.Range(0,audioClip.Length)]);
 
     }
+
 }

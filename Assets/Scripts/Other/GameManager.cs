@@ -36,7 +36,12 @@ public static class GameManager
     public static TextDialogue scriptDialogue;
     public static Cutscene currentCutscene;
 
+    [Header("Audio")]
     public static AudioSource sfxAudioSource;
+    public static AudioSource playerAudioSource;
+    public static float volumeSFX = 1;
+    public static float volumeBGM = .5f;
+    public static float volumeAmbient = .75f;
 
 
 

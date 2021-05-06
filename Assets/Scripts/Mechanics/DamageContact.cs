@@ -14,14 +14,24 @@ public class DamageContact : MonoBehaviour
         
             if (collision.gameObject.GetComponentInParent<Player>())
             {
-                collision.gameObject.GetComponentInParent<Player>().Damage(playerDamage, knockback, transform);
+                DamagePlayer(collision.gameObject.GetComponentInParent<Player>());
             }
 
             if (collision.gameObject.GetComponentInParent<Creature>())
             {
-                collision.gameObject.GetComponentInParent<Creature>().Damage(enemyDamage, knockback, transform);
+                DamageCreature(collision.gameObject.GetComponentInParent<Creature>());
             }
 
+    }
+
+    protected virtual void DamagePlayer(Player script)
+    {
+        script.Damage(playerDamage, knockback, transform);
+    }
+
+    private void DamageCreature(Creature script)
+    {
+        script.Damage(enemyDamage, knockback, transform);
     }
 
 }

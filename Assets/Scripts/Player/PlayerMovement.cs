@@ -95,6 +95,8 @@ public class PlayerMovement : MonoBehaviour
         jumpFallTimer = Time.time + 0.1f;
         canJumpBoost = true;
         jumpBoostTimer = Time.time + jumpBoostWindow;
+
+        GameManager.scriptAudio.JumpUpSfx();
     }
 
     public void JumpLand()

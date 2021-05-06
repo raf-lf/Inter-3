@@ -8,12 +8,15 @@ public class Interactible : MonoBehaviour
     private bool unusable;
     public GameObject canUseFeedback;
 
-    [SerializeField]
     private bool interactible = false;
+
+    public PlayAudio useSfxFeedback;
 
     public virtual void Interact()
     {
         Debug.Log(gameObject.name + " was interacted with!");
+
+        if (useSfxFeedback != null) useSfxFeedback.playSFX();
         
     }
 

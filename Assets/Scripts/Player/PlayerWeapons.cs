@@ -51,6 +51,7 @@ public class PlayerWeapons : MonoBehaviour
             //If key for equipped weapon is pressed, unequip weapon
             if (weaponId == equipedWeapon)
             {
+                if (equipedWeapon != -1) GameManager.scriptAudio.SfxSwap();
                 equipedWeapon = -1;
                 playerArms[0].enabled = true;
                 playerArms[1].enabled = true;
@@ -60,6 +61,7 @@ public class PlayerWeapons : MonoBehaviour
             else
             {
                 equipedWeapon = weaponId;
+                if (equipedWeapon != -1)  GameManager.scriptAudio.SfxSwap();
                 playerArms[0].enabled = false;
                 if (equipedWeapon == 2) playerArms[1].enabled = false;
                 else playerArms[1].enabled = true;
@@ -130,6 +132,7 @@ public class PlayerWeapons : MonoBehaviour
             cooldown[equipedWeapon] = 30;
             GameManager.AmmoClips[equipedWeapon]--;
             ammo[equipedWeapon] = magazineSize[equipedWeapon];
+            GameManager.scriptAudio.SfxReload();
         }
     }
 
@@ -225,7 +228,7 @@ public class PlayerWeapons : MonoBehaviour
             }
             else
             {
-                GameManager.scriptAudio.playSFX(GameManager.scriptAudio.sfxNoAmmo, 1, new Vector2(.7f, 1.3f));
+                GameManager.scriptAudio.SfxNoAmmo();
                 cooldown[equipedWeapon] = cooldownValues[equipedWeapon];
             }
         }

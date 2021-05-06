@@ -17,6 +17,7 @@ public class AnimatorTools : MonoBehaviour
 
     public void playAudioClip(AudioClip clip)
     {
+        GameManager.sfxAudioSource.volume = 1 * GameManager.volumeSFX;
         GameManager.sfxAudioSource.PlayOneShot(clip);
 
     }
