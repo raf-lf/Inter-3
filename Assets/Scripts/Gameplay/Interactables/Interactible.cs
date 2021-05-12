@@ -5,9 +5,11 @@ using UnityEngine;
 public class Interactible : MonoBehaviour
 {
     public bool oneUse;
+    [SerializeField]
     private bool unusable;
     public GameObject canUseFeedback;
 
+    [SerializeField]
     private bool interactible = false;
 
     public PlayAudio useSfxFeedback;

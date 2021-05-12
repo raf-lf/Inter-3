@@ -5,6 +5,7 @@ using UnityEngine;
 public class Cutscene: MonoBehaviour
 {
     public bool off;
+    public bool triggerColliderActivation = true;
 
     [Header("Events")]
     public int currentEvent = 0;
@@ -12,11 +13,9 @@ public class Cutscene: MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && off == false)
+        if (collision.gameObject.CompareTag("Player") && off == false && triggerColliderActivation)
         {
-            off = true;
             CutsceneStartEnd(true);
-            PlayEvent();
 
         }
         
@@ -26,8 +25,10 @@ public class Cutscene: MonoBehaviour
     {
         if (start)
         {
+            off = true;
             currentEvent = 0;
             GameManager.Cutscene(true);
+            PlayEvent();
         }
         else GameManager.Cutscene(false);
 
