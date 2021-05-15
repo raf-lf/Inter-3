@@ -96,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
         canJumpBoost = true;
         jumpBoostTimer = Time.time + jumpBoostWindow;
 
-        GameManager.scriptAudio.JumpUpSfx();
+        GameManager.scriptPlayerAudio.JumpUpSfx();
     }
 
     public void JumpLand()
@@ -208,7 +208,7 @@ public class PlayerMovement : MonoBehaviour
                 jumping = false;
                 rb.gravityScale = 0;
 
-                GameManager.scriptAudio.LadderStepSfx();
+                GameManager.scriptPlayerAudio.LadderStepSfx();
                 GameManager.scriptWeapons.equipedWeaponMemory = PlayerWeapons.equipedWeapon;
                 GameManager.scriptWeapons.SwapWeapon(PlayerWeapons.equipedWeapon);
                 Player.CantAct = true;

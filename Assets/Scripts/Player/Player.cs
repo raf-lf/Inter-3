@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
         GameManager.scriptWeapons = GetComponent<PlayerWeapons>();
         GameManager.scriptMovement = GetComponent<PlayerMovement>();
         GameManager.scriptActions = GetComponent<PlayerActions>();
-        GameManager.scriptAudio = GetComponent<PlayerAudio>();
+        GameManager.scriptPlayerAudio = GetComponent<PlayerAudio>();
     }
 
     public void Damage(int hpLoss, float knockback, Transform sourcePosition)

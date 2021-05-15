@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Attack
   - Breaker
+  - Flammable
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - Cover.Receiver
   - Cover.Attack
   - Detection
-  - 
+  - Neutral.Receiver
   - 
   - 
   - 
@@ -47,14 +48,23 @@ TagManager:
   - name: Background
     uniqueID: 1681777683
     locked: 0
+  - name: Back Environment
+    uniqueID: 2410793319
+    locked: 0
   - name: Environment
     uniqueID: 3589843443
+    locked: 0
+  - name: Interactable
+    uniqueID: 415473113
     locked: 0
   - name: Cover
     uniqueID: 1683185039
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Effects
+    uniqueID: 3952772469
     locked: 0
   - name: Foreground
     uniqueID: 1502089521

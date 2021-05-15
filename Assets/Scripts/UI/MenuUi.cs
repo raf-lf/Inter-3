@@ -13,6 +13,9 @@ public class MenuUi : MonoBehaviour
     public Animator descriptionAnim;
     public Animator optionsAnim;
 
+    public AudioSource sfxSource;
+    public AudioSource bgmSource;
+
     public Text descriptionBoxText;
     public Text descriptionBoxTitle;
 
@@ -25,7 +28,6 @@ public class MenuUi : MonoBehaviour
     private void Start()
     {
         GameManager.scriptMenu = GetComponent<MenuUi>();
-        GameManager.sfxAudioSource = Camera.main.gameObject.GetComponentInChildren<AudioSource>();
 
         for (int i = 0; i < LibraryDialogue.characterPortrait.Length; i++)
         {

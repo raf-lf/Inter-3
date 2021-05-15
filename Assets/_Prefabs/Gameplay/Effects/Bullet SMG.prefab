@@ -242,7 +242,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 0.36320752, b: 0.36320752, a: 1}
   m_Intensity: 5
   m_LightVolumeOpacity: 0.01
-  m_ApplyToSortingLayers: 000000008f5d5364f3a9f8d5
+  m_ApplyToSortingLayers: 000000008f5d5364f3a9f8d5d99dc31867c9b18f75859aeb
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
@@ -278,7 +278,7 @@ GameObject:
   - component: {fileID: 3894369411121496764}
   m_Layer: 10
   m_Name: Bullet SMG
-  m_TagString: Untagged
+  m_TagString: Flammable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -317,7 +317,7 @@ MonoBehaviour:
   speed: 20
   rotationZ: 0
   direction: {x: 1, y: 0}
-  autoDestroyTimer: 3
+  autoDestroyTimer: 1
 --- !u!212 &1167990767201439461
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -354,9 +354,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingLayerID: -342194827
+  m_SortingLayer: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 952b9f8d87840444aa2d9006f22368c5, type: 3}
   m_Color: {r: 1, g: 0, b: 0.05156803, a: 1}
   m_FlipX: 0

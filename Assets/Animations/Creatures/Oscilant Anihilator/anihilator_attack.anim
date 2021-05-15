@@ -1997,6 +1997,13 @@ AnimationClip:
     floatParameter: 300
     intParameter: 0
     messageOptions: 0
+  - time: 0
+    functionName: SfxAttack
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.41666666
     functionName: bladeRotationBoost
     data: 

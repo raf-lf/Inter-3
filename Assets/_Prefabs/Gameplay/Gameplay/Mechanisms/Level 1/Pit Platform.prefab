@@ -417,6 +417,7 @@ GameObject:
   - component: {fileID: 2930706665903858378}
   - component: {fileID: 3722960775403014455}
   - component: {fileID: 6156853647924360787}
+  - component: {fileID: 7767613809948812634}
   m_Layer: 0
   m_Name: Platform
   m_TagString: Untagged
@@ -456,7 +457,7 @@ MonoBehaviour:
   destinyTransform: {fileID: 1697904338743769238}
   moveSpeed: 0.05
   movingSfx: {fileID: 5531368787697314895}
-  currentVolume: 0
+  currentSfxVolume: 0
 --- !u!114 &6134071231081366894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -565,3 +566,29 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
+--- !u!61 &7767613809948812634
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8861676977429406621}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.8}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2, y: 0.9}
+    newSize: {x: 2.0305555, y: 0.9}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 2
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.6, y: 1.6}
+  m_EdgeRadius: 0

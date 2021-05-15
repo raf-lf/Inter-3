@@ -12,7 +12,7 @@ public static class GameManager
 
     [Header("Resources")]
     public static int ItemHeal = 5;
-    public static int ItemGrenade = 3;
+    public static int ItemGrenade = 1;
     public static int[] AmmoClips = { 0, 3, 0 };
 
 
@@ -23,26 +23,21 @@ public static class GameManager
 
     [Header("Script Management")]
     public static GameObject PlayerCharacter;
-    public static CameraFollow scriptCamera;
-    public static Hud scriptHud;
     public static Player scriptPlayer;
     public static PlayerWeapons scriptWeapons;
     public static PlayerMovement scriptMovement;
     public static PlayerActions scriptActions;
-    public static PlayerAudio scriptAudio;
+    public static PlayerAudio scriptPlayerAudio;
+
+    public static CameraFollow scriptCamera;
+    public static AudioManager scriptAudio;
+    public static Hud scriptHud;
     public static MenuUi scriptMenu;
+
     public static TextLog scriptLog;
     public static TextComment scriptComment;
     public static TextDialogue scriptDialogue;
     public static Cutscene currentCutscene;
-
-    [Header("Audio")]
-    public static AudioSource sfxAudioSource;
-    public static AudioSource playerAudioSource;
-    public static float volumeSFX = 1;
-    public static float volumeBGM = .5f;
-    public static float volumeAmbient = .75f;
-
 
 
     public static void PauseGame(bool pause)
@@ -61,4 +56,5 @@ public static class GameManager
         scriptMovement.HaltMovement(on);
 
     }
+
 }

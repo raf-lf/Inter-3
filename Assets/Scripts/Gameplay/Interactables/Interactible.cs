@@ -6,7 +6,7 @@ public class Interactible : MonoBehaviour
 {
     public bool oneUse;
     [SerializeField]
-    private bool unusable;
+    public bool unusable;
     public GameObject canUseFeedback;
 
     [SerializeField]

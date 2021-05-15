@@ -8,7 +8,7 @@ public class OscilantAnihilator : Creature
     [Header("Behavior")]
     public bool active;
     private bool busy;
-    public bool bossBatle;
+    private int damagedState = -1;
 
     [Header("Attack")]
     public float attackRadius = 2;
@@ -34,6 +34,35 @@ public class OscilantAnihilator : Creature
     private ParticleSystem.EmissionModule[] damageTierVfxEmission = new ParticleSystem.EmissionModule[3];
 
 
+    [Header("Audio")]
+    public AudioSource damageLoopSource;
+    public AudioClip[] attack = new AudioClip[1];
+    public AudioClip[] activate = new AudioClip[1];
+    public AudioClip[] stomp = new AudioClip[1];
+    public AudioClip[] damageLoop = new AudioClip[3];
+
+    [Header ("Boss Battle")]
+    public bool bossBatle;
+    public GameObject postDefeatCutscene;
+    public SwitchMoveablePlatform[] elevatorSwitches = new SwitchMoveablePlatform[3];
+    public AudioClip bossMusic;
+    private AudioClip memoryMusic;
+
+
+
+    public void SfxActivate()
+    {
+        playSFX(activate, 1, new Vector2(0.9f, 1.1f));
+    }
+    public void SfxAttack()
+    {
+        playSFX(attack, 1, new Vector2(0.9f, 1.1f));
+    }
+    public void SfxStomp()
+    {
+        playSFX(stomp, 0.3f, standartPitchVariance);
+    }
+
 
     public override void Start()
     {
@@ -45,7 +74,22 @@ public class OscilantAnihilator : Creature
 
     }
 
-    
+    private void BeginBattle()
+    {
+            for (int i = 0; i < elevatorSwitches.Length; i++)
+            {
+                elevatorSwitches[i].unusable = true;
+                elevatorSwitches[i].gameObject.GetComponent<Animator>().SetBool("unusable", true);
+            }
+
+        memoryMusic = GameManager.scriptAudio.bgmAudioSource.clip;
+        GameManager.scriptAudio.MusicMax();
+        GameManager.scriptAudio.bgmAudioSource.clip = bossMusic;
+        GameManager.scriptAudio.bgmAudioSource.Play();
+
+    }
+
+
     public override void damageFeedback()
     {
         Instantiate(damageVFX, transform);
@@ -70,9 +114,10 @@ public class OscilantAnihilator : Creature
         if (bossBatle)
         {
             GameManager.Cutscene(true);
-            StartCoroutine(DeathEnd());
             Player.PlayerControls = false;
             GameManager.scriptCamera.followTarget = gameObject.transform;
+            GameManager.scriptAudio.MusicOff(0.5f);
+            StartCoroutine(DeathEnd());
         }
 
     }
@@ -82,6 +127,16 @@ public class OscilantAnihilator : Creature
         Player.PlayerControls = true;
         GameManager.scriptCamera.followTarget = GameManager.PlayerCharacter.transform;
         GameManager.Cutscene(false);
+        postDefeatCutscene.SetActive(true);
+
+        for (int i = 0; i < elevatorSwitches.Length; i++)
+        {
+            elevatorSwitches[i].unusable = false;
+            elevatorSwitches[i].gameObject.GetComponent<Animator>().SetBool("unusable", false);
+        }
+        GameManager.scriptAudio.bgmAudioSource.clip = memoryMusic;
+        GameManager.scriptAudio.bgmAudioSource.Play();
+        GameManager.scriptAudio.MusicOn(1);
     }
 
     public void bladeRotationBoost(float force)
@@ -139,7 +194,7 @@ public class OscilantAnihilator : Creature
     private void finishedSpawning()
     {
         GameObject createdMinion = Instantiate(minion);
-        createdMinion.GetComponent<OscilantDud>().overlord = gameObject;
+        createdMinion.GetComponent<OscilantShredder>().overlord = gameObject;
         minionList.Add(createdMinion);
         createdMinion.transform.position = minionSpawnPosition;
         eyeAnimator.SetInteger("state", 1);
@@ -156,14 +211,51 @@ public class OscilantAnihilator : Creature
 
     private void Update()
     {
-            if (hp < hpMax * 0.75 && hp>0) damageTierVfxEmission[0].enabled = true;
-            else damageTierVfxEmission[0].enabled = false;
+        if (active && hp > 0)
+        {
+            if (damagedState != 3 && hp < hpMax * 0.25)
+            {
+                damagedState = 3;
+                damageTierVfxEmission[0].enabled = true;
+                damageTierVfxEmission[1].enabled = true;
+                damageTierVfxEmission[2].enabled = true;
+                damageLoopSource.clip = damageLoop[2];
+                if (damageLoopSource.clip != damageLoop[2]) damageLoopSource.Play();
+            }
+            else if (damagedState != 2 && hp < hpMax * 0.5)
+            {
+                damagedState = 2;
+                damageTierVfxEmission[0].enabled = true;
+                damageTierVfxEmission[1].enabled = true;
+                damageTierVfxEmission[2].enabled = false;
+                damageLoopSource.clip = damageLoop[1];
+                if (damageLoopSource.clip != damageLoop[1]) damageLoopSource.Play();
+            }
+            else if (damagedState != 1 && hp < hpMax * 0.75)
+            {
+                damagedState = 1;
+                damageTierVfxEmission[0].enabled = true;
+                damageTierVfxEmission[1].enabled = false;
+                damageTierVfxEmission[2].enabled = false;
+                damageLoopSource.clip = damageLoop[0];
+                if (damageLoopSource.clip != damageLoop[0]) damageLoopSource.Play();
+            }
+            else if (damagedState != 0)
+            {
+                damagedState = 0;
+                damageTierVfxEmission[0].enabled = false;
+                damageTierVfxEmission[1].enabled = false;
+                damageTierVfxEmission[2].enabled = false;
+                damageLoopSource.clip = null;
+            }
+        }
+        else
+        {
+            damageTierVfxEmission[0].enabled = false;
+            damageTierVfxEmission[1].enabled = false;
+            damageTierVfxEmission[2].enabled = false;
+        }
 
-            if (hp < hpMax * 0.5 && hp > 0) damageTierVfxEmission[1].enabled = true;
-            else damageTierVfxEmission[1].enabled = false;
-
-            if (hp < hpMax * 0.25 && hp > 0) damageTierVfxEmission[2].enabled = true;
-            else damageTierVfxEmission[2].enabled = false;
 
         if (GameManager.CutscenePlaying == false)
         {
@@ -171,6 +263,7 @@ public class OscilantAnihilator : Creature
             {
                 if (TargetInsideDetection() && anim.GetBool("active") == false)
                 {
+                    if(bossBatle) BeginBattle();
                     anim.SetBool("active", true);
                     eyeAnimator.SetInteger("state", 1);
                     Invoke("finishedActivating", 1);

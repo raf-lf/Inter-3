@@ -4890,7 +4890,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   oneUse: 1
+  unusable: 0
   canUseFeedback: {fileID: 3278435304810397161}
+  interactible: 0
   useSfxFeedback: {fileID: 6153018701164961226}
   pistolClips: 0
   rifleClips: 0
@@ -9934,7 +9936,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4133566454204864088}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -29.44, y: -4.41, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3278435304769980733}

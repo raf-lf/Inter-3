@@ -19,7 +19,7 @@ public class PlayAudio : MonoBehaviour
 
     public void playSFX()
     {
-        source.volume = volume * GameManager.volumeSFX;
+        source.volume = volume * GameManager.scriptAudio.volumeSfx;
         source.pitch = Random.Range(pitchVariance.x, pitchVariance.y);
         source.PlayOneShot(audioClip[(int)Random.Range(0,audioClip.Length)]);
 

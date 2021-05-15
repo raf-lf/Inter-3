@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerWeapons : MonoBehaviour
 {
     [Header("Weapon Stats")]
-    public static bool[] unlockedWeapon = { true, true, true};
+    public static bool[] unlockedWeapon = { true, true, false};
     public static int equipedWeapon = -1;
     public int equipedWeaponMemory;
     public static int[] ammo = { 0, 6, 50 };
@@ -51,7 +51,7 @@ public class PlayerWeapons : MonoBehaviour
             //If key for equipped weapon is pressed, unequip weapon
             if (weaponId == equipedWeapon)
             {
-                if (equipedWeapon != -1) GameManager.scriptAudio.SfxSwap();
+                if (equipedWeapon != -1) GameManager.scriptPlayerAudio.SfxSwap();
                 equipedWeapon = -1;
                 playerArms[0].enabled = true;
                 playerArms[1].enabled = true;
@@ -61,7 +61,7 @@ public class PlayerWeapons : MonoBehaviour
             else
             {
                 equipedWeapon = weaponId;
-                if (equipedWeapon != -1)  GameManager.scriptAudio.SfxSwap();
+                if (equipedWeapon != -1)  GameManager.scriptPlayerAudio.SfxSwap();
                 playerArms[0].enabled = false;
                 if (equipedWeapon == 2) playerArms[1].enabled = false;
                 else playerArms[1].enabled = true;
@@ -132,7 +132,7 @@ public class PlayerWeapons : MonoBehaviour
             cooldown[equipedWeapon] = 30;
             GameManager.AmmoClips[equipedWeapon]--;
             ammo[equipedWeapon] = magazineSize[equipedWeapon];
-            GameManager.scriptAudio.SfxReload();
+            GameManager.scriptPlayerAudio.SfxReload();
         }
     }
 
@@ -228,7 +228,7 @@ public class PlayerWeapons : MonoBehaviour
             }
             else
             {
-                GameManager.scriptAudio.SfxNoAmmo();
+                GameManager.scriptPlayerAudio.SfxNoAmmo();
                 cooldown[equipedWeapon] = cooldownValues[equipedWeapon];
             }
         }

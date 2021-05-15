@@ -27,7 +27,7 @@ public class PlayerAudio : MonoBehaviour
 
     public void playSFX(AudioClip[] audioClip, float volume, Vector2 pitchVariance)
     {
-        source.volume = volume * GameManager.volumeSFX;
+        source.volume = volume * GameManager.scriptAudio.volumeSfx;
         source.pitch = Random.Range(pitchVariance.x, pitchVariance.y);
         source.PlayOneShot(audioClip[(int)Random.Range(0, audioClip.Length)]);
 
@@ -35,26 +35,26 @@ public class PlayerAudio : MonoBehaviour
 
     public void SfxSwap()
     {
-        source.volume = .5f * GameManager.volumeSFX;
+        source.volume = .5f * GameManager.scriptAudio.volumeSfx;
         source.pitch = Random.Range(standartPitchVariance.x, standartPitchVariance.y);
         source.PlayOneShot(swap[PlayerWeapons.equipedWeapon]);
     }
     public void SfxReload()
     {
-        source.volume = 1 * GameManager.volumeSFX;
+        source.volume = 1 * GameManager.scriptAudio.volumeSfx;
         source.pitch = Random.Range(standartPitchVariance.x, standartPitchVariance.y);
         source.PlayOneShot(reload[PlayerWeapons.equipedWeapon]);
     }
     public void SfxNoAmmo()
     {
-        source.volume = 1 * GameManager.volumeSFX;
+        source.volume = 1 * GameManager.scriptAudio.volumeSfx;
         source.pitch = Random.Range(standartPitchVariance.x, standartPitchVariance.y);
         source.PlayOneShot(noAmmo[PlayerWeapons.equipedWeapon]);
     }
 
     public void StepSfx(float volume)
     {
-        source.volume = volume * GameManager.volumeSFX;
+        source.volume = volume * GameManager.scriptAudio.volumeSfx;
         source.pitch = Random.Range(.9f, 1.1f);
         switch (floorType)
         {

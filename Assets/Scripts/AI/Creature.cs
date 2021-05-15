@@ -8,7 +8,7 @@ public abstract class Creature : MonoBehaviour
     public int hp;
     public int hpMax;
 
-    [Header("Attack")]
+    [Header("Detection")]
     public float detectionRadius;
     public CircleCollider2D detectionTrigger;
     public LayerMask detectionMask;
@@ -23,11 +23,23 @@ public abstract class Creature : MonoBehaviour
     [SerializeField]
     protected bool facingOpposite;
 
-
     [Header("Components")]
     public Rigidbody2D rb;
     public Animator anim;
 
+    [Header("Audio")]
+    public AudioSource sfxSource;
+    public AudioSource sfxLoopSource;
+    public Vector2 standartPitchVariance = new Vector2(.7f, 1.3f);
+
+
+    public void playSFX(AudioClip[] audioClip, float volume, Vector2 pitchVariance)
+    {
+        sfxSource.volume = volume * GameManager.scriptAudio.volumeSfx;
+        sfxSource.pitch = Random.Range(pitchVariance.x, pitchVariance.y);
+        sfxSource.PlayOneShot(audioClip[(int)Random.Range(0, audioClip.Length)]);
+
+    }
 
     public virtual void Start()
     {
@@ -35,6 +47,7 @@ public abstract class Creature : MonoBehaviour
         detectionTrigger.radius = detectionRadius;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
     }
 
     public virtual void Move()
@@ -93,9 +106,9 @@ public abstract class Creature : MonoBehaviour
 
     public virtual void Damage(int hpLoss, float knockback, Transform sourcePosition)
     {
-        Debug.Log(gameObject.name + " took " + hpLoss + " damage. " + hp + " hp remaining.");
         if (hpLoss>0) damageFeedback();
         ChangeHp(hpLoss * -1);
+        Debug.Log(gameObject.name + " took " + hpLoss + " damage. " + hp + " hp remaining.");
 
     }
 
@@ -126,6 +139,7 @@ public abstract class Creature : MonoBehaviour
     {
         Destroy(this.gameObject);
     }
+
 
     private void OnDrawGizmos()
     {

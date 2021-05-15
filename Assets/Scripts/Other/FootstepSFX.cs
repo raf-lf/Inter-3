@@ -10,7 +10,7 @@ public class FootstepSFX : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            GameManager.scriptAudio.floorType = areaFloorId;
+            GameManager.scriptPlayerAudio.floorType = areaFloorId;
 
         }
 
