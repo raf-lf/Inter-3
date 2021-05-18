@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4075196588672652767}
   - component: {fileID: 6600714223893558281}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Physical Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -313,7 +313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  knockback: 0
+  knockback: 7
   speed: 20
   rotationZ: 0
   direction: {x: 1, y: 0}

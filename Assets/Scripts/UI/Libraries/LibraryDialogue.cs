@@ -266,7 +266,7 @@ public static class LibraryDialogue
 
                             default: return null;
                         }
-                    //Escavation pit
+                    //Escavation Pit Puzzle
                     case 7:
                         switch (sectionId)
                         {
@@ -274,25 +274,8 @@ public static class LibraryDialogue
                                 switch (lineId)
                                 {
                                     case 1:
-                                        currentPortraitId = 2;
-                                        return "Quilla, tome cuidado! Você está próxima do poço de escavação!";
-                                    case 2:
                                         currentPortraitId = 0;
-                                        return "Sim, o que exatamente é este lugar?";
-                                    case 3:
-                                        currentPortraitId = 2;
-                                        return "Um antigo projeto governamental. O local é protegido por um perigoso sistema de defesa que dispara contra quem " +
-                                            "se aproxima.";
-                                    case 4:
-                                        currentPortraitId = 0;
-                                        return "Hm... E parece que o trajeto para continuar não é tão simples.Duvido que eu consiga saltar por estas plataformas...";
-                                    case 5:
-                                        currentPortraitId = 2;
-                                        return "Tem um controlador próximo de você. Eu acho que você consegue controlar a posição das plataformas com ele, se ainda " +
-                                            "estiver funcionando.";
-                                    case 6:
-                                        currentPortraitId = 0;
-                                        return "Certo. Vou ver o que posso fazer.";
+                                        return "Porcaria... Como vou chegar do outro lado? Preciso encontrar uma maneira de chegar la em cima.";
 
                                     default: return null;
                                 }
@@ -301,7 +284,79 @@ public static class LibraryDialogue
                                 {
                                     case 1:
                                         currentPortraitId = 1;
-                                        return "Tome cuidado, agente. O poço está cheio de detritos e fragmentos afiados, uma queda pode ser problemática.";
+                                        return "Estas plataformas parecem ser o caminho. Você terá que saltar nelas para alcançar o topo.";
+                                    case 2:
+                                        currentPortraitId = 0;
+                                        return "Saltar? Eu não vou conseguir pular estas distâncias!";
+                                    case 3:
+                                        currentPortraitId = 1;
+                                        return "Este é um problema e tanto... Vou demorar para encontrar outro caminho até a cidade...";
+
+                                    default: return null;
+                                }
+                            case 3:
+                                switch (lineId)
+                                {
+                                    case 1:
+                                        currentPortraitId = 2;
+                                        return "Quilla? Pela sua localização, parece que você está próxima do poço de escavação!";
+                                    case 2:
+                                        currentPortraitId = 0;
+                                        return "Exatamente. Afinal, que tipo de lugar é esse?";
+                                    case 3:
+                                        currentPortraitId = 2;
+                                        return "Uma antiga operação para estabelecer uma mina da época do governo antes da guerra. Um obstáculo bem grande no " +
+                                            "caminho da cidade!";
+
+                                    default: return null;
+                                }
+                            case 4:
+                                switch (lineId)
+                                {
+                                    case 1:
+                                        currentPortraitId = 2;
+                                        return "E esse não é o único problema! O lugar é protegido por um perigoso sistema de defesa! Eu sugiro você tentar desarmar " +
+                                            "ele antes de prosseguir!";
+                                    case 2:
+                                        currentPortraitId = 0;
+                                        return "Certo. Como eu faço isso?";
+                                    case 3:
+                                        currentPortraitId = 2;
+                                        return "Err... Você precisa subir até a sala de controle acima da torre de defesa!";
+                                    case 4:
+                                        currentPortraitId = 0;
+                                        return "...";
+                                    case 5:
+                                        currentPortraitId = 0;
+                                        return "Reina, eu não sou capaz de voar.";
+                                    case 6:
+                                        currentPortraitId = 2;
+                                        return "Ahhhhh! É verdade! As plataformas!";
+
+                                    default: return null;
+                                }
+                            case 5:
+                                switch (lineId)
+                                {
+                                    case 1:
+                                        currentPortraitId = 2;
+                                        return "Desculpe! Devem ter uns controles perto de você que eram usadaos para mover as plataformas! É possível que hoje em " +
+                                            "dia os circúitos não estejam funcionando direito, mas talvez você consiga fazer alguma coisa com eles?";
+                                    case 2:
+                                        currentPortraitId = 0;
+                                        return "Entendido... Vou ver o que consigo fazer.";
+
+                                    default: return null;
+                                }
+                            case 6:
+                                switch (lineId)
+                                {
+                                    case 1:
+                                        currentPortraitId = 2;
+                                        return "E tome cuidado para não cair! Nenhum humano conseguiria sobreviver a queda!";
+                                    case 2:
+                                        currentPortraitId = 0;
+                                        return "Tomarei cuidado. Obrigado, Reina.";
 
                                     default: return null;
                                 }

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Interactible : MonoBehaviour
 {
+    public int rememberedInteractibleId;
+    public bool rememberOnLoad;
+
     public bool oneUse;
     [SerializeField]
     public bool unusable;
@@ -14,9 +17,20 @@ public class Interactible : MonoBehaviour
 
     public PlayAudio useSfxFeedback;
 
+    public virtual void RememberLoad()
+    {
+        unusable = true;
+    }
+
     public virtual void Interact()
     {
-        Debug.Log(gameObject.name + " was interacted with!");
+        if (rememberedInteractibleId != 0)
+        {
+            rememberOnLoad = true;
+            Debug.Log("Interactable won't be able to be used on next load if player reaches a checkpoint.");
+        }
+
+        //Debug.Log(gameObject.name + " was interacted with!");
 
         if (useSfxFeedback != null) useSfxFeedback.playSFX();
         

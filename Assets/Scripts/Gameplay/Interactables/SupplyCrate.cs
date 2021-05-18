@@ -4,16 +4,24 @@ using UnityEngine;
 
 public class SupplyCrate : Interactible
 {
+
     [Header("Treasure")]
     public int pistolClips;
     public int rifleClips;
     public int grenade;
     public int heal;
 
+    public override void RememberLoad()
+    {
+        base.RememberLoad();
+        GetComponent<Animator>().SetBool("open", true);
+
+    }
+
     public override void Interact()
     {
         base.Interact();
-        
+
         GetComponent<Animator>().SetBool("open", true);
 
         int differentItemNumber=0;

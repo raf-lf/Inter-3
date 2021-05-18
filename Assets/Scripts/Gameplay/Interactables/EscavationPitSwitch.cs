@@ -5,6 +5,7 @@ using UnityEngine;
 public class EscavationPitSwitch : Interactible
 {
     public Turret turret;
+    public Animator[] animatorsToAffect;
     public Cutscene cutscene;
 
     public override void Interact()
@@ -15,6 +16,12 @@ public class EscavationPitSwitch : Interactible
 
         turret.active = !turret.active;
         turret.animator.SetBool("inactive", !turret.animator.GetBool("inactive"));
+
+        for(int i = 0; i < animatorsToAffect.Length; i++)
+        {
+            animatorsToAffect[i].SetBool("active", !animatorsToAffect[i].GetBool("active"));
+        }
+
 
         if (turret.active)
         {

@@ -4,14 +4,19 @@ using UnityEngine;
 
 public abstract class Creature : MonoBehaviour
 {
+    protected bool paused;
+    protected bool dying;
+
     [Header("Atributes")]
     public int hp;
     public int hpMax;
+    [Range(0,10)]
+    public int knockbackEffect = 10;
 
     [Header("Detection")]
     public float detectionRadius;
-    public CircleCollider2D detectionTrigger;
     public LayerMask detectionMask;
+    public GameObject target;
 
     [Header("Movement")]
     public Vector2 moveDirection;
@@ -20,12 +25,13 @@ public abstract class Creature : MonoBehaviour
     private float speedChange;
     public bool moveAxisY;
     public bool moving;
-    [SerializeField]
-    protected bool facingOpposite;
+    public bool facingOpposite;
+    protected LayerMask movementLayerMask;
 
     [Header("Components")]
     public Rigidbody2D rb;
     public Animator anim;
+    public bool spriteFacingLeft;
 
     [Header("Audio")]
     public AudioSource sfxSource;
@@ -44,9 +50,10 @@ public abstract class Creature : MonoBehaviour
     public virtual void Start()
     {
         hp = hpMax;
-        detectionTrigger.radius = detectionRadius;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        movementLayerMask = LayerMask.GetMask("Default");
+        target = GameManager.PlayerCharacter;
 
     }
 
@@ -83,13 +90,46 @@ public abstract class Creature : MonoBehaviour
         else rb.velocity = new Vector2(velocity.x, rb.velocity.y);
     }
 
-    public virtual void ChangeDirection()
+    public void SwitchDirection()
     {
-        if (facingOpposite) transform.rotation = Quaternion.Euler(0, 0, 0);
-        else transform.rotation = Quaternion.Euler(0, 180, 0);
-
         facingOpposite = !facingOpposite;
-        moveDirection *= -1;
+        ChangeDirection(facingOpposite);
+
+    }
+
+    public void FaceTarget()
+    {
+        if (transform.position.x > target.transform.position.x) ChangeDirection(true);
+        else ChangeDirection(false);
+
+    }
+
+    public void ChangeDirection(bool oppositeWay)
+    {
+        facingOpposite = oppositeWay;
+
+        if (facingOpposite)
+        {
+            if (spriteFacingLeft == false) transform.rotation = Quaternion.Euler(0, 180, 0);
+            else transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else
+        {
+            if (spriteFacingLeft == false) transform.rotation = Quaternion.Euler(0, 0, 0);
+            else transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+
+        if (moveAxisY == false)
+        {
+            moveDirection.x = Mathf.Abs(moveDirection.x);
+            if (oppositeWay) moveDirection.x *= -1;
+        }
+        else
+        {
+            moveDirection.y = Mathf.Abs(moveDirection.y);
+            if (oppositeWay) moveDirection.y *= -1;
+        }
+
 
     }
 
@@ -106,12 +146,14 @@ public abstract class Creature : MonoBehaviour
 
     public virtual void Damage(int hpLoss, float knockback, Transform sourcePosition)
     {
-        if (hpLoss>0) damageFeedback();
+        if (hpLoss > 0) damageFeedback();
+        knockback *= knockbackEffect / 10;
+        rb.velocity = knockback * Calculations.GetDirectionToTarget(sourcePosition.position, transform.position);
+
         ChangeHp(hpLoss * -1);
         Debug.Log(gameObject.name + " took " + hpLoss + " damage. " + hp + " hp remaining.");
 
     }
-
     public virtual void Heal(int hpGain)
     {
         ChangeHp(hpGain);
@@ -127,12 +169,20 @@ public abstract class Creature : MonoBehaviour
     }
     public bool TargetInsideDetection()
     {
-        if (Physics2D.OverlapCircle(transform.position, detectionRadius, detectionMask)) return true;
+        if (Physics2D.OverlapCircle(transform.position, detectionRadius, detectionMask))
+        {
+          //  Debug.Log("Something detected!");
+            return true;
+        } 
         else return false;
     }
 
     public virtual void Death()
     {
+        rb.velocity = Vector2.zero;
+
+        dying = true;
+        anim.Play("death");
     }
 
     public void Destroy()
@@ -140,6 +190,11 @@ public abstract class Creature : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    protected virtual void Update()
+    {
+        paused = GameManager.CutscenePlaying;
+        
+    }
 
     private void OnDrawGizmos()
     {

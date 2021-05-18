@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class OscilantShredder : Creature
 {
-    private LayerMask movementLayerMask;
 
     [Header("Behavior")]
     public bool hiding;
@@ -44,14 +43,13 @@ public class OscilantShredder : Creature
         else moveDirection = new Vector2(1, 0);
 
         if (hiding) anim.SetBool("hiding", true);
-        movementLayerMask = LayerMask.GetMask("Default");
 
     }
 
     public void State_ReadyLunge()
     {
         onWatch = false;
-        FaceTarget(GameManager.PlayerCharacter);
+        FaceTarget();
         anim.SetInteger("state", 2);
         StopAllCoroutines();
         StartCoroutine(DelayLunge());
@@ -66,7 +64,7 @@ public class OscilantShredder : Creature
 
     public void State_Lunge(GameObject lungeTarget)
     {
-        FaceTarget(lungeTarget);
+        FaceTarget();
         anim.SetInteger("state", 3);
 
         //Get difference between self and target positions
@@ -122,14 +120,6 @@ public class OscilantShredder : Creature
     {
         onWatch = false;
         Instantiate(damageVFX, transform);
-        rb.velocity += Vector2.up * damagedKnockback;
-    }
-
-    private void FaceTarget(GameObject target)
-    {
-        if (target.transform.position.x > transform.position.x && facingOpposite) ChangeDirection();
-        else if (target.transform.position.x < transform.position.x && facingOpposite == false) ChangeDirection();
-
     }
 
     public bool TargetInsideAmbushArea()
@@ -151,7 +141,7 @@ public class OscilantShredder : Creature
 
     }
 
-    private void Update()
+    protected override void Update()
     {
         if (GameManager.CutscenePlaying == false)
         {
@@ -180,13 +170,13 @@ public class OscilantShredder : Creature
                         if (Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y), Vector2.left, .33f, movementLayerMask))
                         {
                             //   Debug.Log("Changed direction to right.");
-                            ChangeDirection();
+                            SwitchDirection();
                         }
                     }
                     else if (Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y), Vector2.right, .33f, movementLayerMask))
                     {
                         // Debug.Log("Changed direction to left.");
-                        ChangeDirection();
+                        SwitchDirection();
                     }
                 }
             }

@@ -24088,7 +24088,7 @@ GameObject:
   - component: {fileID: 5897946354078139615}
   - component: {fileID: 5897946354078139600}
   m_Layer: 0
-  m_Name: Weapon Upgrade
+  m_Name: Weapon Unlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24127,7 +24127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9c80fb3f1fbfa644800d7cea42cae39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  oneUse: 0
+  oneUse: 1
   unusable: 0
   canUseFeedback: {fileID: 5897946353733726213}
   interactible: 0

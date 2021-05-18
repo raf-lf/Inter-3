@@ -26,7 +26,16 @@ public class Hud : MonoBehaviour
     private void Start()
     {
         GameManager.scriptHud = GetComponent<Hud>();
+        UpdateWeaponUnlocks();
 
+    }
+    public void UpdateWeaponUnlocks()
+    {
+        for (int i = 0; i < GameManager.scriptWeapons.weapon.Length; i++)
+        {
+           //Gets all weapons and copies unlock bool to animation state
+           itemHotkeyAnimator[i].SetBool("enabled", GameManager.unlockedWeapon[i]);
+        }
     }
 
     void Update()

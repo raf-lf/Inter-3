@@ -209,7 +209,7 @@ public class OscilantAnihilator : Creature
     }
 
 
-    private void Update()
+    protected override void Update()
     {
         if (active && hp > 0)
         {

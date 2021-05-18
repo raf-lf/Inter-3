@@ -14,9 +14,6 @@ public class Turret : MonoBehaviour
 
     public float attackCooldown;
     public float attackCooldownFrames;
-    private float rotationZ;
-    private Vector3 difference;
-    private Vector3 direction;
     public PlayAudio audioOn;
     public PlayAudio audioOff;
 
@@ -27,9 +24,8 @@ public class Turret : MonoBehaviour
         GameObject attack = Instantiate(projectile);
         attack.transform.position = projectileOrigin.transform.position;
 
-
-        attack.GetComponent<Projectile>().rotationZ = rotationZ;
-        attack.GetComponent<Projectile>().direction = direction;
+        attack.GetComponent<Projectile>().rotationZ = Calculations.GetRotationZToTarget(turretHead.transform.position, target);
+        attack.GetComponent<Projectile>().direction = Calculations.GetDirectionToTarget(projectileOrigin.position,target);
 
         attackCooldownFrames = attackCooldown;
     }
@@ -39,18 +35,13 @@ public class Turret : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && active)
         {
-            Vector3 targetPosition = new Vector3(collision.gameObject.transform.position.x, collision.gameObject.transform.position.y + 1, 0);
-            rotationZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
-            float distance = difference.magnitude;
-            direction = difference / distance;
-            direction.Normalize();
+            Vector3 targetToAttack = new Vector3(collision.gameObject.transform.position.x, collision.gameObject.transform.position.y + 1, 0);
 
-            turretHead.transform.rotation = Quaternion.Euler(0,0,rotationZ);
-            difference = targetPosition - projectileOrigin.position;
+            turretHead.transform.rotation = Quaternion.Euler(0,0, Calculations.GetRotationZToTarget(turretHead.transform.position, targetToAttack));
 
             if (attackCooldownFrames <= 0)
             {
-                Attack(targetPosition);
+                Attack(targetToAttack);
             }
         }
     }

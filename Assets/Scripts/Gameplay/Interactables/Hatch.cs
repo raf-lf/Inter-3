@@ -4,21 +4,31 @@ using UnityEngine;
 
 public class Hatch : MonoBehaviour
 {
-    public Switch switchToActivate;
+    public Switch[] switchesConnected;
+    public int switchesNeeded;
+    [SerializeField]
+    private int switchesActive;
 
+    void OpenDoor()
+    {
+        if (GetComponent<Animator>().GetBool("active") == false) GetComponent<Animator>().SetBool("active", true);
+
+    }
+    void CloseDoor()
+    {
+        if (GetComponent<Animator>().GetBool("active")) GetComponent<Animator>().SetBool("active", false);
+
+    }
 
     void Update()
     {
-        if(switchToActivate.isActive)
-        {
-            if (GetComponent<Animator>().GetBool("active") == false) GetComponent<Animator>().SetBool("active", true);
+        switchesActive = 0;
 
-        }
-        else
+        for (int i = 0; i < switchesConnected.Length; i++)
         {
-            if (GetComponent<Animator>().GetBool("active")) GetComponent<Animator>().SetBool("active", false);
-
+            if (switchesConnected[i].isActive) switchesActive++;
         }
-        
+        if (switchesActive >= switchesNeeded) OpenDoor();
+        else CloseDoor();
     }
 }

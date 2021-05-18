@@ -4863,7 +4863,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerDamage: 5
   enemyDamage: 20
-  knockback: 15
+  knockback: 20
   damageDelay: 0.1
   affectedPlayer: {fileID: 0}
   affectedCreatures: []
