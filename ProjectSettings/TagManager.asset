@@ -54,6 +54,12 @@ TagManager:
   - name: Environment
     uniqueID: 3589843443
     locked: 0
+<<<<<<< Updated upstream
+=======
+  - name: Environment
+    uniqueID: 3589843443
+    locked: 0
+>>>>>>> Stashed changes
   - name: Interactable
     uniqueID: 415473113
     locked: 0

@@ -4813,7 +4813,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -705123853
-  m_SortingLayer: -2
+  m_SortingLayer: -3
   m_SortingOrder: 24
   m_RenderMode: 0
   m_SortMode: 0
@@ -4889,6 +4889,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70296691d56d13149bb1cd6e55494dfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rememberedInteractibleId: 0
+  rememberOnLoad: 0
   oneUse: 1
   unusable: 0
   canUseFeedback: {fileID: 3278435304810397161}
@@ -4896,7 +4898,7 @@ MonoBehaviour:
   useSfxFeedback: {fileID: 6153018701164961226}
   pistolClips: 0
   rifleClips: 0
-  grenade: 1
+  grenade: 2
   heal: 0
 --- !u!212 &3278435304769980722
 SpriteRenderer:
@@ -4935,7 +4937,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -705123853
-  m_SortingLayer: -2
+  m_SortingLayer: -3
   m_SortingOrder: 20
   m_Sprite: {fileID: 21300000, guid: dd19fb8122c364641afa0247c09c9b30, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -9878,7 +9880,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -705123853
-  m_SortingLayer: -2
+  m_SortingLayer: -3
   m_SortingOrder: 23
   m_Sprite: {fileID: 21300000, guid: d88491233f477f14192807961476fc8c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -14842,7 +14844,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -705123853
-  m_SortingLayer: -2
+  m_SortingLayer: -3
   m_SortingOrder: 22
   m_RenderMode: 0
   m_SortMode: 0

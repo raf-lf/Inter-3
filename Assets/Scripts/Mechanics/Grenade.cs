@@ -13,11 +13,17 @@ public class Grenade : MonoBehaviour
         
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.GetComponentInParent<Creature>()) Explode();
+        
+    }
+
     public void Explode()
     {
         GameObject explosion = Instantiate(explosionEffect);
         explosion.transform.position = transform.position;
-        Destroy(this.gameObject);
+        Destroy(gameObject);
         
     }
 }

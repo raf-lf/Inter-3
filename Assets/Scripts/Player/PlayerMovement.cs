@@ -194,7 +194,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void RollEnd()
     {
-        Player.PlayerControls = true;
+        if (GameManager.CutscenePlaying == false) Player.PlayerControls = true;
         if (PlayerWeapons.equipedWeapon == 0) GameManager.scriptWeapons.UpdateMeleeWeaponRotation();
     }
 

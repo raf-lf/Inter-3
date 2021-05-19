@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8730175149809085698}
   - component: {fileID: 4810526965992297904}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Point Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 3309227605800433420}
   - component: {fileID: 5718889082889756181}
   - component: {fileID: 6571511170522658136}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Grenade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f8acc75a3e4424ba5a7a7fee9c9ec9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionDelay: 1
+  explosionDelay: 2
   explosionEffect: {fileID: 3870851861012408772, guid: ce087528578fcab469f027edca0997ef,
     type: 3}
 --- !u!212 &3309227605800433420
