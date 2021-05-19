@@ -26,8 +26,8 @@ TagManager:
   - Cover.Attack
   - Detection
   - Neutral.Receiver
-  - Projectile
-  - Player Non-Combat Collider
+  - 
+  - 
   - 
   - 
   - 
@@ -48,20 +48,14 @@ TagManager:
   - name: Background
     uniqueID: 1681777683
     locked: 0
-  - name: Near Background
+  - name: Back Environment
     uniqueID: 2410793319
-    locked: 0
-  - name: Walls
-    uniqueID: 1076939419
-    locked: 0
-  - name: Terrain
-    uniqueID: 4059285975
-    locked: 0
-  - name: Interactable
-    uniqueID: 415473113
     locked: 0
   - name: Environment
     uniqueID: 3589843443
+    locked: 0
+  - name: Interactable
+    uniqueID: 415473113
     locked: 0
   - name: Cover
     uniqueID: 1683185039

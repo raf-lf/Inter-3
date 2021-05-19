@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerWeapons : MonoBehaviour
 {
     [Header("Weapon Stats")]
+    public static bool[] unlockedWeapon = { true, true, false};
     public static int equipedWeapon = -1;
     public int equipedWeaponMemory;
     public static int[] ammo = { 0, 6, 50 };
@@ -35,6 +36,12 @@ public class PlayerWeapons : MonoBehaviour
 
     public SpriteRenderer[] playerArms = new SpriteRenderer[2];
 
+
+    //Updates weapon hotkeys at start
+    private void Start()
+    {
+        UpdateWeaponUnlocks();    
+    }
 
     //Swap Weapon method is accessed through PlayerActions class
     public void SwapWeapon(int weaponId)
@@ -129,6 +136,14 @@ public class PlayerWeapons : MonoBehaviour
         }
     }
 
+    public void UpdateWeaponUnlocks()
+    {
+        for (int i = 0; i < weapon.Length; i++)
+        {
+            //Gets all weapons and copies unlock bool to animation state
+            GameManager.scriptHud.itemHotkeyAnimator[i].SetBool("enabled", unlockedWeapon[i]);
+        }
+    }
   
     public void UpdateAim()
     { 

@@ -224,7 +224,7 @@ public class PlayerActions : MonoBehaviour
 
             for (int i = 0; i < keyWeapon.Length; i++)
             {
-                if (Input.GetKeyDown(keyWeapon[i]) && GameManager.unlockedWeapon[i]) GameManager.scriptWeapons.SwapWeapon(i);
+                if (Input.GetKeyDown(keyWeapon[i]) && PlayerWeapons.unlockedWeapon[i]) GameManager.scriptWeapons.SwapWeapon(i);
             }
 
             if (remainingPulses > 0 && Time.time > pulseTimer)

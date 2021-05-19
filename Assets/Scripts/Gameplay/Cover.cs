@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class Cover : MonoBehaviour
 {
-    public bool beingUsed;
     [SerializeField]
     private bool interactible = false;
     [SerializeField]
-    private bool playerUsingCover = false;
+    private bool usingCover = false;
 
     public GameObject popup;
 
     private void CoverUse(bool wentIn)
     {
-        playerUsingCover = wentIn;
+        usingCover = wentIn;
 
         GameManager.scriptPlayer.Cover(wentIn);
 
@@ -23,36 +22,22 @@ public class Cover : MonoBehaviour
     //Enables cover usage while inside collider
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (beingUsed == false)
+        if (collision.gameObject.CompareTag("Player"))
         {
-            if (collision.gameObject.CompareTag("Player"))
-            {
-                interactible = true;
-                popup.SetActive(true);
-            }
-            else if (collision.gameObject.GetComponent<Soldier>())
-            {
-                collision.gameObject.GetComponent<Soldier>().coverInContact = GetComponent<Cover>();
-            }
+            interactible = true;
+            popup.SetActive(true);
         }
     }
 
     //Disables cover usage when leaving collider. Doesn't disable while using cover
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (beingUsed == false)
+        if (collision.gameObject.CompareTag("Player"))
         {
-            if (collision.gameObject.GetComponent<Player>())
-            {
-                interactible = false;
-                popup.SetActive(false);
-
-                if (playerUsingCover) CoverUse(false);
-            }
-            else if (collision.gameObject.GetComponent<Soldier>())
-            {
-                collision.gameObject.GetComponent<Soldier>().coverInContact = null;
-            }
+            interactible = false;
+            popup.SetActive(false);
+            
+            if(usingCover) CoverUse(false);
         }
     }
 
@@ -61,7 +46,7 @@ public class Cover : MonoBehaviour
         //Can't tale cover while crouching
         if (interactible && GameManager.scriptMovement.crouching == false)
         {
-            if (playerUsingCover)
+            if (usingCover)
             {
                 //Gets out of cover. Can also use crouch key
                 if (Input.GetKeyDown(PlayerActions.keyCover) || Input.GetKeyDown(PlayerActions.keyCrouch) || Input.GetKeyDown(PlayerActions.keyJump))

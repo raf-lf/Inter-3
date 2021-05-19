@@ -15,7 +15,6 @@ public class MenuUi : MonoBehaviour
 
     public AudioSource sfxSource;
     public AudioSource bgmSource;
-    public GameObject overlay;
 
     public Text descriptionBoxText;
     public Text descriptionBoxTitle;
@@ -29,7 +28,6 @@ public class MenuUi : MonoBehaviour
     private void Start()
     {
         GameManager.scriptMenu = GetComponent<MenuUi>();
-        GameManager.overlay = overlay;
 
         for (int i = 0; i < LibraryDialogue.characterPortrait.Length; i++)
         {
